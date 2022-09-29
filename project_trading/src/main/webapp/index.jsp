@@ -3,10 +3,11 @@
 <!DOCTYPE html>
 <html>
 <head>
-<meta charset="UTF-8">
-<title>Insert title here</title>
+    <link rel="stylesheet" href="css/style.css">
+    <title>고이상사</title>
 </head>
 <body>
-
+   <%@ include file="header.jsp" %>
+   <img src="img/main.png">
 </body>
 </html>
