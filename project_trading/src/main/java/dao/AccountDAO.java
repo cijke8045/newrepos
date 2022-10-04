@@ -143,12 +143,20 @@ public class AccountDAO {
 			pstmt = con.prepareStatement(query);
 			pstmt.setString(1, code);		
 			ResultSet rs = pstmt.executeQuery();
-			if(rs.next()) {
-				dto.setCo_name(rs.getString("co_name"));
-				dto.setCode(rs.getString("code"));
-				dto.setDepartment(rs.getString("department"));
-				dto.setName("name");
-				dto.setJob("job");
+			
+			if(code.length()==4) {				//직원
+				if(rs.next()) {
+					dto.setCode(rs.getString("code"));
+					dto.setDepartment(rs.getString("department"));
+					dto.setName(rs.getString("name"));
+					dto.setJob(rs.getString("job"));
+				}
+			}else if(code.length()==10) { 		//거래처
+				if(rs.next()) {
+					dto.setCode(rs.getString("code"));
+					dto.setCo_name(rs.getString("co_name"));
+					dto.setName(rs.getString("name"));
+				}
 			}
 			
 		}catch(Exception e) {

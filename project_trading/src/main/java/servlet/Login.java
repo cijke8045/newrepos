@@ -45,11 +45,13 @@ public class Login extends HttpServlet {
 				session.setAttribute("authority", 1);
 			} else if(code.length()==4) {  //직원일때
 				session.setAttribute("authority", 2);
-			} else if(code.equals("admin")) {
+			} else if(code.equals("admin")) {	//관리자
 				session.setAttribute("authority", 3);
 			}
-			System.out.println("아이디조회성공");
 			
+			System.out.println(session.getAttribute("code"));
+			System.out.println(session.getAttribute("job"));
+			System.out.println(session.getAttribute("authority"));
 			out.print("<script type ='text/javascript'>"					
 					+ "location.href='index.jsp';"
 					+ "</script>");
