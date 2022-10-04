@@ -2,9 +2,6 @@
     pageEncoding="UTF-8"%>
 <%
 request.setCharacterEncoding("utf-8");
-String id = request.getParameter("id");
-String pw = request.getParameter("pw");
-Boolean loginClick=Boolean.parseBoolean(request.getParameter("loginClick"));
 %>
     
 <!DOCTYPE html>
