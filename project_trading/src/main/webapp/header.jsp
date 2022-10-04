@@ -1,5 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
+
 <!DOCTYPE html>
 <html>
 <head>
@@ -7,6 +8,11 @@
 </head>
 <body>
     <header>
+    <%
+    	session = request.getSession();
+    	int auth = (int)session.getAttribute("authority");
+    %>
+    	환영합니다
         <div style="text-align: center;">
         	<a href=index.jsp >
             	<img src="img/pepe.png" height="200px">

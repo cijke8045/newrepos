@@ -1,25 +1,19 @@
 package dto;
 
-import java.sql.Date;
-
-public class MemberVO {
+public class MemberDTO {
 	private String id;
-	private String pwd;
+	private String pw;
+	private String code;
+	private String co_name;
 	private String name;
-	private String email;
-	private Date joinDate;
+	private String department;
+	private String job;
 	
-	public String getId() {
-		return id;
+	public String getCo_name() {
+		return co_name;
 	}
-	public void setId(String id) {
-		this.id = id;
-	}
-	public String getPwd() {
-		return pwd;
-	}
-	public void setPwd(String pwd) {
-		this.pwd = pwd;
+	public void setCo_name(String co_name) {
+		this.co_name = co_name;
 	}
 	public String getName() {
 		return name;
@@ -27,17 +21,35 @@ public class MemberVO {
 	public void setName(String name) {
 		this.name = name;
 	}
-	public String getEmail() {
-		return email;
+	public String getDepartment() {
+		return department;
 	}
-	public void setEmail(String email) {
-		this.email = email;
+	public void setDepartment(String department) {
+		this.department = department;
 	}
-	public Date getJoinDate() {
-		return joinDate;
+	public String getJob() {
+		return job;
 	}
-	public void setJoinDate(Date joinDate) {
-		this.joinDate = joinDate;
+	public void setJob(String job) {
+		this.job = job;
 	}
-	
+	public String getId() {
+		return id;
+	}
+	public void setId(String id) {
+		this.id = id;
+	}
+	public String getPw() {
+		return pw;
+	}
+	public void setPw(String pw) {
+		this.pw = pw;
+	}
+	public String getCode() {
+		return code;
+	}
+	public void setCode(String code) {
+		this.code = code;
+	}
+
 }

@@ -1,23 +1,18 @@
 package servlet;
 
-import java.io.IOException;
-import java.io.PrintWriter;
-
-import dao.AccountDAO;
 import jakarta.servlet.RequestDispatcher;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
+import java.io.IOException;
+import java.io.PrintWriter;
 
-@WebServlet("/checkCode")
+import dao.AccountDAO;
 
-public class CheckCode extends HttpServlet {
+public class OverlapCheck extends HttpServlet {
 	private static final long serialVersionUID = 1L;
-    
-    public CheckCode() {      
-    }
 
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		doHandle(request, response);
@@ -28,25 +23,20 @@ public class CheckCode extends HttpServlet {
 	}
 
 	private void doHandle(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		
+		request.setCharacterEncoding("utf-8");
 		response.setContentType("text/html; charset=utf-8");
 		AccountDAO dao = new AccountDAO();
 		PrintWriter out = response.getWriter();
-		boolean codeExist=false;
-		boolean idExist=false;
-		codeExist=dao.codeExist(request.getParameter("code"));
-		idExist=dao.idExist(request.getParameter("code"));
 		
-		if(codeExist==true && idExist==false) {			//코드존재,코드로 기가입 아이디없음.
-			RequestDispatcher dispatch = request.getRequestDispatcher("memberForm.jsp?code="+request.getParameter("code"));
-			dispatch.forward(request, response);//memberForm.jsp 회원가입양식페이지로 이동.
-		} else {
-			out.print("<body>"
-					+ "<script>"
-					+ " alert(\"잘못된입력\")"
-					+ "</script>"
-					+ "<a href=\"createAcc.jsp\">돌아가기</a> <a href=\"index.jsp\">메인으로</a> "					
-					+ "</body>");
+		boolean idoverlap=false;
+		idoverlap = dao.idoverlap(request.getParameter("id"));
+		
+		
+		if(idoverlap) {			//아이디 중복
+			out.print("impossible");
+		} else {				//사용가능
+			out.print("possible");
 		}
 	}
+
 }

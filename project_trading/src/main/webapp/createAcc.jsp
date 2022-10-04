@@ -2,9 +2,7 @@
     pageEncoding="UTF-8"%>
     
 <%
-	String code=request.getParameter("code");
-	boolean judge = true;			// 고유코드 조회 후 값반영
-			//고유코드로 DB조회, 아이디 중복 가입 방지용 
+	String code=request.getParameter("code");				
 %>
 <!DOCTYPE html>
 <html>

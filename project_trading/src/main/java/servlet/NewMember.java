@@ -4,20 +4,16 @@ import java.io.IOException;
 import java.io.PrintWriter;
 
 import dao.AccountDAO;
-import jakarta.servlet.RequestDispatcher;
+import dto.MemberDTO;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 
-@WebServlet("/checkCode")
-
-public class CheckCode extends HttpServlet {
+@WebServlet("/newmember")
+public class NewMember extends HttpServlet {
 	private static final long serialVersionUID = 1L;
-    
-    public CheckCode() {      
-    }
 
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		doHandle(request, response);
@@ -31,22 +27,18 @@ public class CheckCode extends HttpServlet {
 		
 		response.setContentType("text/html; charset=utf-8");
 		AccountDAO dao = new AccountDAO();
+		MemberDTO dto = new MemberDTO();
 		PrintWriter out = response.getWriter();
-		boolean codeExist=false;
-		boolean idExist=false;
-		codeExist=dao.codeExist(request.getParameter("code"));
-		idExist=dao.idExist(request.getParameter("code"));
 		
-		if(codeExist==true && idExist==false) {			//코드존재,코드로 기가입 아이디없음.
-			RequestDispatcher dispatch = request.getRequestDispatcher("memberForm.jsp?code="+request.getParameter("code"));
-			dispatch.forward(request, response);//memberForm.jsp 회원가입양식페이지로 이동.
-		} else {
-			out.print("<body>"
-					+ "<script>"
-					+ " alert(\"잘못된입력\")"
-					+ "</script>"
-					+ "<a href=\"createAcc.jsp\">돌아가기</a> <a href=\"index.jsp\">메인으로</a> "					
-					+ "</body>");
-		}
+		dto.setCode(request.getParameter("code"));
+		dto.setId(request.getParameter("id"));
+		dto.setPw(request.getParameter("pw"));
+		
+		dao.insertmember(dto);
+		
+		out.print("<script type ='text/javascript'>"
+				+ "alert(\"회원가입 되셨습니다.\");"
+				+ "location.href='index.jsp';"
+				+ "</script>");
 	}
 }
