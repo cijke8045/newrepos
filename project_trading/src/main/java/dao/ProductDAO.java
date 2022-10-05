@@ -3,6 +3,7 @@ package dao;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
+import java.util.ArrayList;
 import java.util.List;
 
 import javax.naming.Context;
@@ -25,26 +26,27 @@ public class ProductDAO {
 		}
 	}
 	
-	public List<ProductDTO> searchProduct(String p_name) {
+	public ArrayList<ProductDTO> searchProduct(String p_name) {
 		String query;
-		List<ProductDTO> dtos =null;
+		ArrayList<ProductDTO> dtos =new ArrayList<ProductDTO>();
 		
 		try {
 			con = dataFactory.getConnection();
 			if(p_name.equals("all")) {			//조회목록이 전부일경우
 				query="select * from product";
+				pstmt = con.prepareStatement(query);
 			} else {			//특정상품 조회시
-				query="select * from product where code=?";
-				pstmt.setString(1, p_name);
-			}
-			pstmt = con.prepareStatement(query);			
+				query="select * from product where name like ?";
+				pstmt = con.prepareStatement(query);
+				pstmt.setString(1, "%"+p_name+"%");
+			}			
 			ResultSet rs = pstmt.executeQuery();
-			if(rs.next()) {
+			while(rs.next()) {
 				ProductDTO dto = new ProductDTO();
-				dto.setP_code("code");
-				dto.setP_name(p_name);
-				dto.setP_price("price");
-				dto.setP_unit("unit");
+				dto.setP_code(rs.getString("code"));
+				dto.setP_name(rs.getString("name"));
+				dto.setP_price(rs.getString("price"));
+				dto.setP_unit(rs.getString("unit"));
 				dtos.add(dto);
 			}
 			

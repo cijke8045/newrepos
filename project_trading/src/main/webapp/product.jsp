@@ -1,5 +1,5 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
-	import="java.util.List"
+	import="java.util.ArrayList"
 	import=" dto.ProductDTO"
 	import=" dao.ProductDAO"
     pageEncoding="UTF-8"%>
@@ -32,33 +32,36 @@
 %>	
 
 		<form class = "searchCom" method="post" action="product.jsp">
-			<input type="text" name = "comtxt" placeholder="상품명을 입력해주세요"/>
+			<input type="text" name = "comtxt" placeholder="상품명을 입력해주세요" value=""/>
 			<input type="submit" value="검색"/>
-			<input type="hidden" name="command" value="search"/>
 		</form>
 		
 		<br><br>
 		
 <%
-		List<ProductDTO> dtos=null;
+		ArrayList<ProductDTO> dtos = new ArrayList<ProductDTO>();
 		ProductDAO dao = new ProductDAO(); 
 		ProductDTO dto = new ProductDTO();
-				
-		if(request.getParameter("comtxt")==null && request.getParameter("command")==null){
+		if(request.getParameter("comtxt")==null) {		
+			
+		}else if(request.getParameter("comtxt").equals("")){
 			dtos=dao.searchProduct("all");		//미 입력시 전부검색
-		} else if(request.getParameter("command").equals("search")){					//검색어 입력시
+		} else{					//검색어 입력시
 			dtos=dao.searchProduct(request.getParameter("comtxt"));
 		}
-%>		
-		<form class="tblWrapper">
+		
+		if(request.getParameter("comtxt")!=null) {		
+%>
+			<form class="tblWrapper">
 			<table class="infoList">
 				<tr><th>상품코드</th><th>상품명</th><th>단위</th><th>공급가액</th></tr>
-<%
-		for(int i =0; i<dtos.size(); i++){
-			dto=dtos.get(i);
+<%						
+			for(int i =0; i<dtos.size(); i++){
+				dto=dtos.get(i);
 %>				
 		<tr><td><%= dto.getP_code() %></td><td><%=dto.getP_name() %></td><td><%=dto.getP_unit() %></td><td><%= dto.getP_price() %></td></tr>
 <%
+			}
 		}
 %>				
 			</table>
@@ -66,7 +69,6 @@
 		
 		<br><br>
 		<div style="text-align: center ">
-			<button class="btn" type="button" value="상세조회">상세조회</button> &nbsp;&nbsp;
 			<button class="btn" type="button" value="신규등록">신규등록</button>  &nbsp;&nbsp;
 			<button class="btn" type="button" value="삭제">삭제</button>
 		</div>
