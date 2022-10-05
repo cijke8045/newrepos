@@ -16,7 +16,7 @@
 				return;
 			}
 			$.ajax({
-				type:"post", async:true, url:"http://192.168.1.57:8090/project_trading/overlap",
+				type:"post", async:true, url:"http://localhost:8090/project_trading/overlap",
 				dataType:"text",data:{id:_id},
 				success:function(data, textStatus){
 					if(data=='possible'){

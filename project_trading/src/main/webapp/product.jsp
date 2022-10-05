@@ -18,7 +18,7 @@
 	<link rel = "stylesheet" href = "css/style.css">
 	<script>
 		function conf() {
-			var ans = confirm("상품삭제시 재고 또한 삭제됩니다.3번 생각하고 삭제하세요");
+			var ans = confirm("상품삭제시 재고 또한 삭제됩니다. 3번 생각하고 삭제하세요");
 			
 			if(ans){
 				var tbl = document.tbl;

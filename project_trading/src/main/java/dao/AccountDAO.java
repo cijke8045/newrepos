@@ -35,7 +35,7 @@ public class AccountDAO {
 			con = dataFactory.getConnection();
 			if(code.length()==10) {			//사업자 번호이면 컴패니테이블 조회
 				query="select code from company where code=?";
-			} else if(code.length()==4) {			//직원번호이면 임플로이테이블 조회
+			} else if(code.length()==4 || code.equals("admin")) {			//직원번호이면 임플로이테이블 조회
 				query="select code from employee where code=?";
 			} else {
 				return false;
@@ -171,7 +171,7 @@ public class AccountDAO {
 		MemberDTO dto =new MemberDTO();
 		try {
 			con = dataFactory.getConnection();
-			if(code.length()==4) {				//직원
+			if(code.length()==4 || code.equals("admin")) {				//직원
 				query="select * from employee where code=?";
 			} else if(code.length()==10) { 		//거래처
 				query="select * from company where code=?";
@@ -180,7 +180,7 @@ public class AccountDAO {
 			pstmt.setString(1, code);		
 			 rs = pstmt.executeQuery();
 			
-			if(code.length()==4) {				//직원
+			if(code.length()==4 || code.equals("admin")) {				//직원
 				if(rs.next()) {
 					dto.setCode(rs.getString("code"));
 					dto.setDepartment(rs.getString("department"));
