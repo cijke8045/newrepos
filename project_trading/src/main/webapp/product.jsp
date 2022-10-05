@@ -16,6 +16,18 @@
 	<meta charset="UTF-8">
 	<title>거래처 관리</title>
 	<link rel = "stylesheet" href = "css/style.css">
+	<script>
+		function conf() {
+			var ans = confirm("상품삭제시 재고 또한 삭제됩니다.3번 생각하고 삭제하세요");
+			
+			if(ans){
+				var tbl = document.tbl;
+				tbl.method="post";
+				tbl.action="delProduct";
+				tbl.submit();
+			}
+		}
+	</script>
 </head>
 <body>
 	<%@ include file="header.jsp" %>
@@ -52,14 +64,15 @@
 		
 		if(request.getParameter("comtxt")!=null) {		
 %>
-			<form class="tblWrapper">
+			<form class="tblWrapper" name="tbl">
 			<table class="infoList">
-				<tr><th>상품코드</th><th>상품명</th><th>단위</th><th>공급가액</th></tr>
+				<tr><th>선택</th><th>상품코드</th><th>상품명</th><th>단위</th><th>공급가액</th></tr>
 <%						
 			for(int i =0; i<dtos.size(); i++){
 				dto=dtos.get(i);
 %>				
-		<tr><td><%= dto.getP_code() %></td><td><%=dto.getP_name() %></td><td><%=dto.getP_unit() %></td><td><%= dto.getP_price() %></td></tr>
+		
+		<tr><td><input type="radio" name="code" value=<%=dto.getP_code() %> /></td><td><%= dto.getP_code() %></td><td><%=dto.getP_name() %></td><td><%=dto.getP_unit() %></td><td><%= dto.getP_price() %></td></tr>
 <%
 			}
 		}
@@ -69,8 +82,8 @@
 		
 		<br><br>
 		<div style="text-align: center ">
-			<button class="btn" type="button" value="신규등록">신규등록</button>  &nbsp;&nbsp;
-			<button class="btn" type="button" value="삭제">삭제</button>
+			<button class="btn" type="button" value="신규등록" onclick="location.href='newProduct.jsp';">신규등록</button>  &nbsp;&nbsp;
+			<button class="btn" type="button" value="삭제" onclick="conf();">삭제</button>
 		</div>
 <%
 	}

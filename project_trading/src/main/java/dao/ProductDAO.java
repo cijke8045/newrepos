@@ -63,4 +63,84 @@ public class ProductDAO {
 		}
 		return dtos;
 	}
+	
+	public String autoCode(String table) {				//테이블이름으로 코드를 조회 후, 중간에 비어있거나 가장 큰 수를 리턴
+		int code=0;
+		int temp=0;
+		
+		try {
+			con = dataFactory.getConnection();
+			String query="select code from "+table+" order by code";
+			pstmt = con.prepareStatement(query);			
+			rs = pstmt.executeQuery();			
+			while(rs.next()) {
+				if(temp<rs.getInt("code")) {			//중간에 빈 번호가 있을때
+					code=temp;
+					break;
+				}else {
+					temp=rs.getInt("code")+1;					
+				}
+			}
+			if(!rs.next()) {			//끝 번호
+				code=temp;
+			}
+			
+		}catch(Exception e) {
+			e.printStackTrace();
+		}finally {
+			try {
+				if(rs!=null) rs.close();
+				if(pstmt!=null) pstmt.close();
+			} catch(Exception e) {
+				e.printStackTrace();
+			}
+		}
+		return code+"";
+	}
+	
+	public String newProduct(ProductDTO dto) {		//자동으로 생성된 상품코드를 리턴함
+		String code = autoCode("product");		//코드 자동생성
+		try {
+			con = dataFactory.getConnection();
+			String query="insert into product values(?,?,?,?)";
+			pstmt = con.prepareStatement(query);
+			pstmt.setString(1, code);
+			pstmt.setString(2, dto.getP_name());
+			pstmt.setString(3, dto.getP_unit());
+			pstmt.setString(4, dto.getP_price());
+			pstmt.executeUpdate();
+			
+		}catch(Exception e) {
+			e.printStackTrace();
+		}finally {
+			try {
+				if(rs!=null) rs.close();
+				if(pstmt!=null) pstmt.close();
+			} catch(Exception e) {
+				e.printStackTrace();
+			}
+		}
+		return code;
+	}
+	
+	public void delProduct(String code) {		
+		
+		try {
+			con = dataFactory.getConnection();
+			String query="delete from product where code=?";
+			pstmt = con.prepareStatement(query);
+			pstmt.setString(1, code);
+			pstmt.executeUpdate();
+			
+		}catch(Exception e) {
+			e.printStackTrace();
+		}finally {
+			try {
+				if(rs!=null) rs.close();
+				if(pstmt!=null) pstmt.close();
+			} catch(Exception e) {
+				e.printStackTrace();
+			}
+		}
+	}
 }

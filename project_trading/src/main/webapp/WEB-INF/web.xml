@@ -39,4 +39,14 @@
     <servlet-name>Logout</servlet-name>
     <url-pattern>/logout</url-pattern>
   </servlet-mapping>
+  <servlet>
+    <description></description>
+    <display-name>NewProduct</display-name>
+    <servlet-name>NewProduct</servlet-name>
+    <servlet-class>servlet.NewProduct</servlet-class>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>NewProduct</servlet-name>
+    <url-pattern>/newProduct</url-pattern>
+  </servlet-mapping>
 </web-app>
