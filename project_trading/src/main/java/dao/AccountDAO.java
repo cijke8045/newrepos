@@ -12,9 +12,10 @@ import dto.MemberDTO;
 
 public class AccountDAO {
 	
-	private PreparedStatement pstmt;
+	private PreparedStatement pstmt=null;
 	private Connection con;
 	private DataSource dataFactory;
+	private ResultSet rs=null;
 	
 	public AccountDAO() {
 		try {
@@ -23,7 +24,7 @@ public class AccountDAO {
 			dataFactory = (DataSource) envContext.lookup("jdbc/oracle"); 
 		} catch (Exception e) {
 			e.printStackTrace();
-		}
+		} 
 	}
 	
 	public boolean codeExist(String code) {
@@ -41,13 +42,20 @@ public class AccountDAO {
 			}
 			pstmt = con.prepareStatement(query);
 			pstmt.setString(1, code);
-			ResultSet rs = pstmt.executeQuery();
+			rs = pstmt.executeQuery();
 			if(rs.next()) {
 				result=true;
-			}
+			} 
 			
 		}catch(Exception e) {
 			e.printStackTrace();
+		} finally {
+			try {
+				if(rs!=null) rs.close();
+				if(pstmt!=null) pstmt.close();
+			} catch(Exception e) {
+				e.printStackTrace();
+			}
 		}
 		return result;
 	}
@@ -60,13 +68,20 @@ public class AccountDAO {
 			String query="select id from member where code=?";
 			pstmt = con.prepareStatement(query);
 			pstmt.setString(1, code);
-			ResultSet rs = pstmt.executeQuery();
+			rs = pstmt.executeQuery();
 			if(rs.next()) {
 				result=true;
 			}
 			
 		}catch(Exception e) {
 			e.printStackTrace();
+		} finally {
+			try {
+				if(rs!=null) rs.close();
+				if(pstmt!=null) pstmt.close();
+			} catch(Exception e) {
+				e.printStackTrace();
+			}
 		}
 		return result;
 	}
@@ -79,13 +94,20 @@ public class AccountDAO {
 			String query="select id from member where id=?";
 			pstmt = con.prepareStatement(query);
 			pstmt.setString(1, id);
-			ResultSet rs = pstmt.executeQuery();
+			 rs = pstmt.executeQuery();
 			if(rs.next()) {
 				result=true;
 			}
 			
 		}catch(Exception e) {
 			e.printStackTrace();
+		}finally {
+			try {
+				if(rs!=null) rs.close();
+				if(pstmt!=null) pstmt.close();
+			} catch(Exception e) {
+				e.printStackTrace();
+			}
 		}
 		return result;
 	}
@@ -107,6 +129,13 @@ public class AccountDAO {
 			System.out.println("회원가입");
 		}catch (Exception e) {
 			e.printStackTrace();
+		}finally {
+			try {
+				if(rs!=null) rs.close();
+				if(pstmt!=null) pstmt.close();
+			} catch(Exception e) {
+				e.printStackTrace();
+			}
 		}
 	}
 	
@@ -119,13 +148,20 @@ public class AccountDAO {
 			pstmt = con.prepareStatement(query);
 			pstmt.setString(1, id);
 			pstmt.setString(2, pw);
-			ResultSet rs = pstmt.executeQuery();
+			 rs = pstmt.executeQuery();
 			if(rs.next()) {
 				result=rs.getString(1);
 			}
 			
 		}catch(Exception e) {
 			e.printStackTrace();
+		}finally {
+			try {
+				if(rs!=null) rs.close();
+				if(pstmt!=null) pstmt.close();
+			} catch(Exception e) {
+				e.printStackTrace();
+			}
 		}
 		return result;
 	}
@@ -142,7 +178,7 @@ public class AccountDAO {
 			}
 			pstmt = con.prepareStatement(query);
 			pstmt.setString(1, code);		
-			ResultSet rs = pstmt.executeQuery();
+			 rs = pstmt.executeQuery();
 			
 			if(code.length()==4) {				//직원
 				if(rs.next()) {
@@ -161,6 +197,13 @@ public class AccountDAO {
 			
 		}catch(Exception e) {
 			e.printStackTrace();
+		}finally {
+			try {
+				if(rs!=null) rs.close();
+				if(pstmt!=null) pstmt.close();
+			} catch(Exception e) {
+				e.printStackTrace();
+			}
 		}
 		return dto;
 	}

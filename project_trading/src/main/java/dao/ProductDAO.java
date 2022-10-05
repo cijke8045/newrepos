@@ -13,9 +13,10 @@ import javax.sql.DataSource;
 import dto.ProductDTO;
 
 public class ProductDAO {
-	private PreparedStatement pstmt;
+	private PreparedStatement pstmt=null;
 	private Connection con;
 	private DataSource dataFactory;
+	private ResultSet rs=null;
 	public ProductDAO() {
 		try {
 			Context ctx = new InitialContext();
@@ -40,7 +41,7 @@ public class ProductDAO {
 				pstmt = con.prepareStatement(query);
 				pstmt.setString(1, "%"+p_name+"%");
 			}			
-			ResultSet rs = pstmt.executeQuery();
+			rs = pstmt.executeQuery();
 			while(rs.next()) {
 				ProductDTO dto = new ProductDTO();
 				dto.setP_code(rs.getString("code"));
@@ -52,6 +53,13 @@ public class ProductDAO {
 			
 		}catch(Exception e) {
 			e.printStackTrace();
+		}finally {
+			try {
+				if(rs!=null) rs.close();
+				if(pstmt!=null) pstmt.close();
+			} catch(Exception e) {
+				e.printStackTrace();
+			}
 		}
 		return dtos;
 	}
