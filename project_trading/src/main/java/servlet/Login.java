@@ -49,9 +49,6 @@ public class Login extends HttpServlet {
 				session.setAttribute("authority", 3);
 			}
 			
-			System.out.println(session.getAttribute("code"));
-			System.out.println(session.getAttribute("job"));
-			System.out.println(session.getAttribute("authority"));
 			out.print("<script type ='text/javascript'>"					
 					+ "location.href='index.jsp';"
 					+ "</script>");

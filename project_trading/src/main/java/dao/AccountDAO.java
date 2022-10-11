@@ -53,6 +53,7 @@ public class AccountDAO {
 			try {
 				if(rs!=null) rs.close();
 				if(pstmt!=null) pstmt.close();
+				con.close();
 			} catch(Exception e) {
 				e.printStackTrace();
 			}
@@ -79,6 +80,7 @@ public class AccountDAO {
 			try {
 				if(rs!=null) rs.close();
 				if(pstmt!=null) pstmt.close();
+				con.close();
 			} catch(Exception e) {
 				e.printStackTrace();
 			}
@@ -105,6 +107,7 @@ public class AccountDAO {
 			try {
 				if(rs!=null) rs.close();
 				if(pstmt!=null) pstmt.close();
+				con.close();
 			} catch(Exception e) {
 				e.printStackTrace();
 			}
@@ -133,6 +136,7 @@ public class AccountDAO {
 			try {
 				if(rs!=null) rs.close();
 				if(pstmt!=null) pstmt.close();
+				con.close();
 			} catch(Exception e) {
 				e.printStackTrace();
 			}
@@ -159,6 +163,7 @@ public class AccountDAO {
 			try {
 				if(rs!=null) rs.close();
 				if(pstmt!=null) pstmt.close();
+				con.close();
 			} catch(Exception e) {
 				e.printStackTrace();
 			}
@@ -201,6 +206,7 @@ public class AccountDAO {
 			try {
 				if(rs!=null) rs.close();
 				if(pstmt!=null) pstmt.close();
+				con.close();
 			} catch(Exception e) {
 				e.printStackTrace();
 			}

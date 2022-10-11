@@ -24,6 +24,8 @@
 <%
 	}
 %>		
+	상품관리
+	<br><br>
 	<form name="frmCode" method="post" action="newProduct">
 		상품명: <input type="text" name="name"> <br>
 		단위: <input type="text" name="unit"> <br>

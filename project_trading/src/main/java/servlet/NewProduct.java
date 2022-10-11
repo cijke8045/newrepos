@@ -32,7 +32,7 @@ public class NewProduct extends HttpServlet {
 		dto.setP_unit(request.getParameter("unit"));
 		dto.setP_price(request.getParameter("price"));
 		
-		String code=dao.newProduct(dto);
+		int code=dao.newProduct(dto);
 		
 		out.print("<html>"
 				+ "<body>"

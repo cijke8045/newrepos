@@ -68,7 +68,7 @@
 		            <nav>
 		                <a href="companyMng.jsp">거래처 관리</a> | 
 		                <a href="product.jsp">상품 관리</a> | 
-		                <a href="#">재고 관리</a> |
+		                <a href="stockMain.jsp">재고 관리</a> |
 		                <a href="#">거래 관리</a> | 
 		                <a href="#">수금 관리</a>
 		            </nav>

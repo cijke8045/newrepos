@@ -3,18 +3,12 @@
 	import=" dto.ProductDTO"
 	import=" dao.ProductDAO"
     pageEncoding="UTF-8"%>
-<%!
-	String p_code;
-	String p_name;
-	String p_unit;
-	String p_price;
-	
-%>    
+   
 <!DOCTYPE html>
 <html>
 <head>
 	<meta charset="UTF-8">
-	<title>거래처 관리</title>
+	<title>상품 관리</title>
 	<link rel = "stylesheet" href = "css/style.css">
 	<script>
 		function conf() {
@@ -42,7 +36,9 @@
 <%
 	}else{			//권한 있을 시
 %>	
-
+		
+		상품관리 
+		<br><br>
 		<form class = "searchCom" method="post" action="product.jsp">
 			<input type="text" name = "comtxt" placeholder="상품명을 입력해주세요" value=""/>
 			<input type="submit" value="검색"/>

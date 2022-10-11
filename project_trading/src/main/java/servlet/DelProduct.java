@@ -29,7 +29,7 @@ public class DelProduct extends HttpServlet {
 		
 		ProductDAO dao = new ProductDAO();
 		PrintWriter out = response.getWriter();
-		dao.delProduct(request.getParameter("code"));
+		dao.delProduct(Integer.parseInt(request.getParameter("code")));
 		
 		out.print("<html>"
 				+ "<body>"

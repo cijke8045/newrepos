@@ -27,6 +27,36 @@ public class ProductDAO {
 		}
 	}
 	
+	public ProductDTO infowithcode(int code) {
+		String query;
+		ProductDTO dto =new ProductDTO();
+		
+		try {
+			con = dataFactory.getConnection();
+			query="select * from product where code=?";
+			pstmt = con.prepareStatement(query);
+			pstmt.setInt(1, code);
+			rs = pstmt.executeQuery();
+			if(rs.next()) {
+				dto.setP_name(rs.getString("name"));
+				dto.setP_price(rs.getString("price"));
+				dto.setP_unit(rs.getString("unit"));
+			}
+			
+		}catch(Exception e) {
+			e.printStackTrace();
+		}finally {
+			try {
+				if(rs!=null) rs.close();
+				if(pstmt!=null) pstmt.close();
+				con.close();
+			} catch(Exception e) {
+				e.printStackTrace();
+			}
+		}
+		return dto;
+	}
+	
 	public ArrayList<ProductDTO> searchProduct(String p_name) {
 		String query;
 		ArrayList<ProductDTO> dtos =new ArrayList<ProductDTO>();
@@ -44,7 +74,7 @@ public class ProductDAO {
 			rs = pstmt.executeQuery();
 			while(rs.next()) {
 				ProductDTO dto = new ProductDTO();
-				dto.setP_code(rs.getString("code"));
+				dto.setP_code(rs.getInt("code"));
 				dto.setP_name(rs.getString("name"));
 				dto.setP_price(rs.getString("price"));
 				dto.setP_unit(rs.getString("unit"));
@@ -57,6 +87,7 @@ public class ProductDAO {
 			try {
 				if(rs!=null) rs.close();
 				if(pstmt!=null) pstmt.close();
+				con.close();
 			} catch(Exception e) {
 				e.printStackTrace();
 			}
@@ -64,7 +95,7 @@ public class ProductDAO {
 		return dtos;
 	}
 	
-	public String autoCode(String table) {				//테이블이름으로 코드를 조회 후, 중간에 비어있거나 가장 큰 수를 리턴
+	public int autoCode(String table) {				//테이블이름으로 코드를 조회 후, 중간에 비어있거나 가장 큰 수를 리턴
 		int code=0;
 		int temp=0;
 		
@@ -91,20 +122,21 @@ public class ProductDAO {
 			try {
 				if(rs!=null) rs.close();
 				if(pstmt!=null) pstmt.close();
+				con.close();
 			} catch(Exception e) {
 				e.printStackTrace();
 			}
 		}
-		return code+"";
+		return code;
 	}
 	
-	public String newProduct(ProductDTO dto) {		//자동으로 생성된 상품코드를 리턴함
-		String code = autoCode("product");		//코드 자동생성
+	public int newProduct(ProductDTO dto) {		//자동으로 생성된 상품코드를 리턴함
+		int code = autoCode("product");		//코드 자동생성
 		try {
 			con = dataFactory.getConnection();
 			String query="insert into product values(?,?,?,?)";
 			pstmt = con.prepareStatement(query);
-			pstmt.setString(1, code);
+			pstmt.setInt(1, code);
 			pstmt.setString(2, dto.getP_name());
 			pstmt.setString(3, dto.getP_unit());
 			pstmt.setString(4, dto.getP_price());
@@ -116,6 +148,7 @@ public class ProductDAO {
 			try {
 				if(rs!=null) rs.close();
 				if(pstmt!=null) pstmt.close();
+				con.close();
 			} catch(Exception e) {
 				e.printStackTrace();
 			}
@@ -123,13 +156,13 @@ public class ProductDAO {
 		return code;
 	}
 	
-	public void delProduct(String code) {		
+	public void delProduct(int code) {		
 		
 		try {
 			con = dataFactory.getConnection();
 			String query="delete from product where code=?";
 			pstmt = con.prepareStatement(query);
-			pstmt.setString(1, code);
+			pstmt.setInt(1, code);
 			pstmt.executeUpdate();
 			
 		}catch(Exception e) {
@@ -138,6 +171,7 @@ public class ProductDAO {
 			try {
 				if(rs!=null) rs.close();
 				if(pstmt!=null) pstmt.close();
+				con.close();
 			} catch(Exception e) {
 				e.printStackTrace();
 			}

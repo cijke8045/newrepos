@@ -1,14 +1,15 @@
 package dto;
 
 public class ProductDTO {
-	private String p_code;
+	private int p_code;
 	private String p_name;
 	private String p_unit;
 	private String p_price;
-	public String getP_code() {
+	
+	public int getP_code() {
 		return p_code;
 	}
-	public void setP_code(String p_code) {
+	public void setP_code(int p_code) {
 		this.p_code = p_code;
 	}
 	public String getP_name() {
