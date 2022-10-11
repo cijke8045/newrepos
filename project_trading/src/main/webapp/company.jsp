@@ -1,48 +1,77 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
+	import="java.util.ArrayList"
+	import=" dto.ProductDTO"
+	import=" dao.ProductDAO"
     pageEncoding="UTF-8"%>
+   
 <!DOCTYPE html>
 <html>
 <head>
 	<meta charset="UTF-8">
 	<title>거래처 관리</title>
 	<link rel = "stylesheet" href = "css/style.css">
+	
 </head>
 <body>
 	<%@ include file="header.jsp" %>
-	
 	<br><br>
-	<form class = "searchCom" method="post" action="searchCompany">
-		<input type="text" name = "comtxt" placeholder="상호명을 입력해주세요"/>
-		<input type="submit" value="검색"/>
-	</form>
-	
-	<br><br>
-	<form class="tblWrapper">
-		<table class="infoList">
-			<tr><th>No.</th><th>사업자 번호</th><th>상호</th><th>담당자</th><th>전화번호</th><th>주소</th></tr>
-			<tr><td>1</td><td>2000102620001026</td><td>고이상사</td><td>이가현</td><td>010-1234-5678</td><td>가나다라마바사</td></tr>
-			<tr><td>1</td><td>2000102620001026</td><td>고이상사</td><td>이가현</td><td>010-1234-5678</td><td>가나다라마바사</td></tr>
-			<tr><td>1</td><td>2000102620001026</td><td>고이상사</td><td>이가현</td><td>010-1234-5678</td><td>가나다라마바사</td></tr>
-			<tr><td>1</td><td>2000102620001026</td><td>고이상사</td><td>이가현</td><td>010-1234-5678</td><td>가나다라마바사</td></tr>
-			<tr><td>1</td><td>2000102620001026</td><td>고이상사</td><td>이가현</td><td>010-1234-5678</td><td>가나다라마바사</td></tr>
-			<tr><td>1</td><td>2000102620001026</td><td>고이상사</td><td>이가현</td><td>010-1234-5678</td><td>가나다라마바사</td></tr>
-			<tr><td>1</td><td>2000102620001026</td><td>고이상사</td><td>이가현</td><td>010-1234-5678</td><td>가나다라마바사</td></tr>
-			<tr><td>1</td><td>2000102620001026</td><td>고이상사</td><td>이가현</td><td>010-1234-5678</td><td>가나다라마바사</td></tr>
-			<tr><td>1</td><td>2000102620001026</td><td>고이상사</td><td>이가현</td><td>010-1234-5678</td><td>가나다라마바사</td></tr>
-			<tr><td>1</td><td>2000102620001026</td><td>고이상사</td><td>이가현</td><td>010-1234-5678</td><td>가나다라마바사</td></tr>
-			<tr><td>1</td><td>2000102620001026</td><td>고이상사</td><td>이가현</td><td>010-1234-5678</td><td>가나다라마바사</td></tr><tr><td>1</td><td>2000102620001026</td><td>고이상사</td><td>이가현</td><td>010-1234-5678</td><td>가나다라마바사</td></tr>
-			<tr><td>1</td><td>2000102620001026</td><td>고이상사</td><td>이가현</td><td>010-1234-5678</td><td>가나다라마바사</td></tr>
-			<tr><td>1</td><td>2000102620001026</td><td>고이상사</td><td>이가현</td><td>010-1234-5678</td><td>가나다라마바사</td></tr>
-			<tr><td>1</td><td>2000102620001026</td><td>고이상사</td><td>이가현</td><td>010-1234-5678</td><td>가나다라마바사</td></tr>
+<%
+	if(auth==0 || auth==1){			//비회원,거래처일경우
+%>
+		<script>
+			alert("잘못된 접근입니다.");
+			location.href='index.jsp';		
+		</script>
+<%
+	}else{			//권한 있을 시
+%>	
 		
-		</table>
-	</form>
-	
-	<br><br>
-	<div style="text-align: center ">
-		<button class="btn" type="button" value="상세조회">상세조회</button> &nbsp;&nbsp;
-		<button class="btn" type="button" value="신규등록">신규등록</button>  &nbsp;&nbsp;
-		<button class="btn" type="button" value="삭제">삭제</button>
-	</div>	
+		상품관리 
+		<br><br>
+		<form class = "searchCom" method="post" action="product.jsp">
+			<input type="text" name = "comtxt" placeholder="상호명을 입력해주세요" value=""/>
+			<input type="submit" value="검색"/>
+		</form>
+		
+		<br><br>
+		
+<%
+		ArrayList<ProductDTO> dtos = new ArrayList<ProductDTO>();
+		ProductDAO dao = new ProductDAO(); 
+		ProductDTO dto = new ProductDTO();
+		if(request.getParameter("comtxt")==null) {		
+			
+		}else if(request.getParameter("comtxt").equals("")){
+			dtos=dao.searchProduct("all");		//미 입력시 전부검색
+		} else{					//검색어 입력시
+			dtos=dao.searchProduct(request.getParameter("comtxt"));
+		}
+		
+		if(request.getParameter("comtxt")!=null) {		
+%>
+			<form class="tblWrapper" name="tbl">
+			<table class="infoList">
+				<tr><th>선택</th><th>상품코드</th><th>상품명</th><th>단위</th><th>공급가액</th></tr>
+<%						
+			for(int i =0; i<dtos.size(); i++){
+				dto=dtos.get(i);
+%>				
+		
+		<tr><td><input type="radio" name="code" value=<%=dto.getP_code() %> /></td><td><%= dto.getP_code() %></td><td><%=dto.getP_name() %></td><td><%=dto.getP_unit() %></td><td><%= dto.getP_price() %></td></tr>
+<%
+			}
+		}
+%>				
+			</table>
+		</form>
+		
+		<br><br>
+		<div style="text-align: center ">
+			<button class="btn" type="button" value="신규등록" onclick="location.href='newProduct.jsp';">신규등록</button>  &nbsp;&nbsp;
+			<button class="btn" type="button" value="삭제" onclick="conf();">삭제</button>
+		</div>
+<%
+	}
+%>	
 </body>
 </html>

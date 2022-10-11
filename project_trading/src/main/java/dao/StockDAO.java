@@ -174,14 +174,19 @@ public class StockDAO {
 		
 	}
 	
-	public void updateStock(int changecnt) {
+	public StockDTO findChange(int no) {
+		StockDTO dto = new StockDTO();
+		
 		try {
 			con = dataFactory.getConnection();
-			String query="update stock set totalcnt =totalcnt-?";
+			String query="select changecnt,causedate from stock where no=?";
 			pstmt = con.prepareStatement(query);
-			pstmt.setInt(1, changecnt);
-			
-			pstmt.executeUpdate();
+			pstmt.setInt(1, no);
+			rs=pstmt.executeQuery();
+			if(rs.next()) {
+				dto.setChangecnt(rs.getInt(1));
+				dto.setCausedate(rs.getDate(2));
+			}
 			
 		}catch(Exception e) {
 			e.printStackTrace();
@@ -194,22 +199,15 @@ public class StockDAO {
 				e.printStackTrace();
 			}
 		}
-		
+		return dto;
 	}
 	
-	public int delStock(int no) {
-		int changecnt=0;
+	public void delStock(int no) {
+		
 		try {
 			con = dataFactory.getConnection();
-			String query="select changecnt from stock where no=?";
+			String query="delete from stock where no=?";
 			pstmt = con.prepareStatement(query);
-			pstmt.setInt(1, no);
-			pstmt.executeQuery();
-			if(rs.next()) {
-				changecnt=rs.getInt(1);
-			}
-			
-			query="delete from stock where code=?";
 			pstmt.setInt(1, no);
 			pstmt.executeUpdate();
 			
@@ -224,7 +222,6 @@ public class StockDAO {
 				e.printStackTrace();
 			}
 		}
-		return changecnt;
 	}
 	
 	public void newStock(StockDTO dto) {

@@ -4,6 +4,7 @@ import java.io.IOException;
 import java.io.PrintWriter;
 
 import dao.StockDAO;
+import dto.StockDTO;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
@@ -27,9 +28,13 @@ public class DelStock extends HttpServlet {
 		response.setContentType("text/html; charset=utf-8");
 		PrintWriter out = response.getWriter();
 		
+		StockDTO dto = new StockDTO();
 		StockDAO dao = new StockDAO();
-		int changecnt=dao.delStock(Integer.parseInt(request.getParameter("no")));
-		dao.updateStock(changecnt);
+		
+		dto=dao.findChange((Integer.parseInt(request.getParameter("no"))));
+		dao.delStock(Integer.parseInt(request.getParameter("no")));
+		dto.setChangecnt(-1*dto.getChangecnt());		//삭제시 업데이트위한 음수화
+		dao.updateStock(dto);
 		
 		out.print("<html>"
 				+ "<body>"
