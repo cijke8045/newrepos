@@ -1,12 +1,11 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
     
-
 <!DOCTYPE html>
 <html>
 <head>
 <meta charset="UTF-8">
-<title>상품신규등록</title>
+<title>거래처신규등록</title>
 </head>
 <body>
 	<%@ include file="header.jsp" %>
@@ -22,12 +21,13 @@
 <%
 	}
 %>		
-	상품관리
+	거래처관리
 	<br><br>
-	<form name="frmCode" method="post" action="newProduct">
-		상품명: <input type="text" name="name"> <br>
-		단위: <input type="text" name="unit"> <br>
-		공급가액: <input type="text" name="price"> <br>
+	<form name="frmCode" method="post" action="newCompany">
+		상호 : <input type="text" name="name"> <br>
+		사업자번호 : <input type="text" name="code"> <br>
+		연락처: <input type="text" name="contact"> <br>
+		주소: <input type="text" name="address"> <br>
 		<input type="submit" value="등록하기">
 		<input type = "reset" value ="다시작성">
 	</form>	
