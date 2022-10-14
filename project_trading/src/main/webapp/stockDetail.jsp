@@ -16,7 +16,11 @@
 	<link rel = "stylesheet" href = "css/style.css">
 	<script>
 		function openmemo() {
+			var tbl = document.tbl;
 			
+			tbl.method="post";
+			tbl.action="stockDetail.jsp";
+			tbl.submit();
 		}
 		function new_() {
 			var tbl = document.tbl;
@@ -38,7 +42,7 @@
 	<%@ include file="header.jsp" %>
 	<br><br>
 <%
-	if(auth==0 || auth==1){			//비회원,거래처일경우
+	if(auth==0 || auth==1 || (int)session.getAttribute("stock")==0){			//비회원,거래처일경우
 %>
 		<script>
 			alert("잘못된 접근입니다.");
@@ -82,13 +86,26 @@
 %>				
 			</td>
 			<td><%= s_dto.getCausedate() %></td><td><%=s_dto.getCause() %></td><td><%=s_dto.getChangecnt() %></td><td><%= s_dto.getTotalcnt() %></td><td><%=s_dto.getEditor() %></td><td><%=s_dto.getEditdate() %></td>
+			
 		</tr>
 <%
+
+				if(request.getParameter("command")!=null && request.getParameter("command").equals("open") && s_dto.getNo() == Integer.parseInt(request.getParameter("no"))){
+%>
+		<tr height="120px">
+			<td colspan="7">
+				<%=s_dto.getMemo() %>
+			</td>
+		</tr>
+<%
+				}
 			}
-%>				
+%>			
 			</table>
+
 			<input type="hidden" name="name" value="<%=p_dto.getP_name()%>">
 			<input type="hidden" name="code" value="<%=code%>">
+			<input type="hidden" name="command" value="open">
 		</form>
 		
 		<br><br>

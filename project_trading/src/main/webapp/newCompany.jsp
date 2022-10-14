@@ -12,7 +12,7 @@
 	
 	<br><br>
 <%
-	if(auth==0 || auth==1){			//비회원,거래처일경우
+	if(auth==0 || auth==1 || (int)session.getAttribute("company")==0){			//비회원,거래처,권한없는경우
 %>
 		<script>
 			alert("잘못된 접근입니다.");

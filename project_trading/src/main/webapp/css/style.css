@@ -54,3 +54,66 @@ nav{
 	height: 40px;
 	font-size: 18px;
 }
+
+.trade{
+	font-size: 20px;
+	background-color:black;
+	text-align:center;
+	margin: auto;
+}
+
+.trade th{
+	padding:10px;
+}
+
+.tblWrapper_trade{
+	width: 1450px; 
+	height: 500px;
+	margin: auto;
+	 
+	overflow: scroll;
+	overflow-x:hidden;
+}
+
+
+.tradeList th{
+	position: sticky;
+	top: 0px;
+	background-color:gray;
+	white-space:nowrap;
+}
+
+.tradeList th, td{
+    font-size: 20px;
+	text-align : center;
+	padding : 10px;
+	border: 1px solid black;
+	border-collapse: collapse;
+}
+
+.tradeTotal{
+	position: sticky;
+	bottom:0;
+	background-color:gray;
+}
+
+.tradeList_sSize{
+	width: 100px;
+	height: 25px;
+	font-size: 20px;
+	border:0 solid black;
+}
+
+.inlong{
+	width: 250px;
+	height: 25px;
+	font-size: 20px;
+	border:0 solid black;
+}
+
+.inshort{
+	width: 100px;
+	height: 25px;
+	font-size: 20px;
+	border:0 solid black;
+}

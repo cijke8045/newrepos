@@ -2,24 +2,20 @@
 	import="java.util.ArrayList"
 	import=" dto.CompanyDTO"
 	import=" dao.CompanyDAO"
-    pageEncoding="UTF-8"%>
-   
+	pageEncoding="UTF-8"%>
+    
 <!DOCTYPE html>
 <html>
 <head>
 	<meta charset="UTF-8">
-	<title>거래처 관리</title>
+	<title>거래 관리</title>
 	<link rel = "stylesheet" href = "css/style.css">
 	<script>
-		function conf() {
-			var ans = confirm("거래처를 삭제하시겠습니까? 3번 생각하고 삭제하세요");
-			
-			if(ans){
-				var tbl = document.tbl;
-				tbl.method="post";
-				tbl.action="delCompany";
-				tbl.submit();
-			}
+		function search() {
+			var tbl = document.tbl;
+			tbl.method = "post";
+			tbl.action = "tradeDetail.jsp";
+			tbl.submit();
 		}
 	</script>
 </head>
@@ -27,7 +23,7 @@
 	<%@ include file="header.jsp" %>
 	<br><br>
 <%
-	if(auth==0 || auth==1 ||(int)session.getAttribute("company")==0){			//비회원,거래처,권한없는경우
+	if(auth==0 || auth==1 || (int)session.getAttribute("trade")==0){			//비회원,거래처일경우
 %>
 		<script>
 			alert("잘못된 접근입니다.");
@@ -36,17 +32,21 @@
 <%
 	}else{			//권한 있을 시
 %>	
-		
-		거래처관리 
+		거래관리
 		<br><br>
-		<form class = "searchCom" method="post" action="company.jsp">
-			<input type="text" name = "comtxt" placeholder="상호명을 입력해주세요" value=""/>
+		<button class="btn" type="button" onclick="location.href='tradeFormOut.jsp';">신규 매출 거래명세서</button> &nbsp;&nbsp;
+		<button class="btn" type="button" onclick="location.href='tradeFormIn.jsp';">신규 매입 거래명세서</button> &nbsp;&nbsp;
+		<form class = "searchCom" method="post" action="tradeMain.jsp">
+			<input type="text" name = "comtxt" placeholder="상호를 입력해주세요" value=""/>
 			<input type="submit" value="검색"/>
 		</form>
-		
-		<br><br>
-		
+		<p style="text-align: center;">※ 전체거래처를 검색하시려면 공란으로 검색을 해주세요.</p>
 <%
+		if(request.getParameter("comtxt")!=null) {
+%>
+		<br><br>
+<%
+		}
 		ArrayList<CompanyDTO> dtos = new ArrayList<CompanyDTO>();
 		CompanyDAO dao = new CompanyDAO(); 
 		CompanyDTO dto = new CompanyDTO();
@@ -60,28 +60,29 @@
 		
 		if(request.getParameter("comtxt")!=null) {		
 %>
-			<form class="tblWrapper" name="tbl">
+		<form name="tbl" style="width: 1200px; height: 500px; margin: auto;">
 			<table class="infoList">
 				<tr><th>선택</th><th>사업자번호</th><th>상호</th><th>전화번호</th><th>주소</th></tr>
 <%						
 			for(int i =0; i<dtos.size(); i++){
-				dto=dtos.get(i); 
-%>				
+				dto=dtos.get(i);
+%>			
 		
 		<tr><td><input type="radio" name="code" value=<%=dto.getCode() %> /></td><td><%=dto.getCode() %></td><td><%=dto.getName() %></td><td><%=dto.getContact() %></td><td><%=dto.getAddress() %></td></tr>
 <%
 			}
-		}
 %>				
 			</table>
-		</form>
-		
 		<br><br>
 		<div style="text-align: center ">
-			<button class="btn" type="button" value="신규등록" onclick="location.href='newCompany.jsp';">신규등록</button>  &nbsp;&nbsp;
-			<button class="btn" type="button" value="삭제" onclick="conf();">삭제</button>
+			<p style="text-align: center;">※ 거래처 미 선택시 전체거래처로 조회됩니다.</p>
+			<p style="text-align: center;">※ 전체기간을 검색하시려면 조회기간을 공란으로 두고 조회 해주세요.</p>
+			조회기간:<input type="date" name="start" value="all"/>~<input type="date" name="end" value="all"/>
+			<button class="btn" type="button" onclick="search();">조회</button>  &nbsp;&nbsp;
 		</div>
+		</form>
 <%
+		}
 	}
 %>	
 </body>

@@ -4,7 +4,6 @@ import java.io.IOException;
 import java.io.PrintWriter;
 
 import dao.CompanyDAO;
-import dto.CompanyDTO;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
@@ -27,17 +26,16 @@ public class DelCompany extends HttpServlet {
 		response.setContentType("text/html; charset=utf-8");
 		
 		CompanyDAO dao = new CompanyDAO();
-		CompanyDTO dto = new CompanyDTO();
 		PrintWriter out = response.getWriter();
 		
-		dao.delCompany(Integer.parseInt(request.getParameter("code")));
+		dao.delCompany(request.getParameter("code"));
 		
 		
 		out.print("<html>"
 				+ "<body>"
 				+ "<script>"
 				+ "alert(\"삭제되었습니다.\");"
-			    + "location.href='Company.jsp';"
+			    + "location.href='company.jsp';"
 				+ "</script>"
 				+ "<body>"
 				+ "</html>");

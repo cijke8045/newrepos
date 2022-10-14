@@ -2,15 +2,15 @@ package dto;
 
 public class CompanyDTO {
 	
-	private int code;
+	private String code;
 	private String name;
 	private String contact;
 	private String address;
 	
-	public int getCode() {
+	public String getCode() {
 		return code;
 	}
-	public void setCode(int code) {
+	public void setCode(String code) {
 		this.code = code;
 	}
 	public String getName() {

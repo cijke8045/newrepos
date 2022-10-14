@@ -3,18 +3,17 @@ package servlet;
 import java.io.IOException;
 import java.io.PrintWriter;
 
-import dao.ProductDAO;
-import dto.ProductDTO;
+import dao.MemberDAO;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
-
-@WebServlet("/delProduct")
-public class DelProduct extends HttpServlet {
+import jakarta.servlet.http.HttpSession;
+@WebServlet("/adPwCh")
+public class AdPwCh extends HttpServlet {
 	private static final long serialVersionUID = 1L;
-
+	
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		doHandle(request, response);
 	}
@@ -24,22 +23,16 @@ public class DelProduct extends HttpServlet {
 	}
 
 	private void doHandle(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		request.setCharacterEncoding("utf-8");
+		HttpSession session = request.getSession();
+		PrintWriter out = response.getWriter();
+		MemberDAO dao = new MemberDAO();
+		dao.changePw((int)session.getAttribute("code"), request.getParameter("checkchangepw"));
+		session.invalidate();
 		response.setContentType("text/html; charset=utf-8");
 		
-		ProductDAO dao = new ProductDAO();
-		PrintWriter out = response.getWriter();
-		dao.delProduct(Integer.parseInt(request.getParameter("code")));
-		dao.delStockAll(Integer.parseInt(request.getParameter("code")));
-		
-		out.print("<html>"
-				+ "<body>"
-				+ "<script>"
-				+ "alert(\"상품번호["+request.getParameter("code")+"] 삭제 되었습니다.\");"
-			    + "location.href='product.jsp';"
-				+ "</script>"
-				+ "<body>"
-				+ "</html>");
-	}
-
+		out.print("<script type ='text/javascript'>"
+				+ "alert(\"변경 되었습니다. 다시 로그인 하세요.\");"
+				+ "location.href='index.jsp';"
+				+ "</script>");
+		}
 }

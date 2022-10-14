@@ -177,4 +177,26 @@ public class ProductDAO {
 			}
 		}
 	}
+	
+	public void delStockAll(int code) {		
+		
+		try {
+			con = dataFactory.getConnection();
+			String query="delete from stock where code=?";
+			pstmt = con.prepareStatement(query);
+			pstmt.setInt(1, code);
+			pstmt.executeUpdate();
+			
+		}catch(Exception e) {
+			e.printStackTrace();
+		}finally {
+			try {
+				if(rs!=null) rs.close();
+				if(pstmt!=null) pstmt.close();
+				con.close();
+			} catch(Exception e) {
+				e.printStackTrace();
+			}
+		}
+	}
 }

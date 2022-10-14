@@ -3,17 +3,45 @@ package dto;
 public class MemberDTO {
 	private String id;
 	private String pw;
-	private String code;
-	private String co_name;
+	private int code;
 	private String name;
 	private String department;
 	private String job;
+	private int company;
+	private int product;
+	private int stock;
+	private int trade;
+	private int collect;
 	
-	public String getCo_name() {
-		return co_name;
+	public int getCompany() {
+		return company;
 	}
-	public void setCo_name(String co_name) {
-		this.co_name = co_name;
+	public void setCompany(int company) {
+		this.company = company;
+	}
+	public int getProduct() {
+		return product;
+	}
+	public void setProduct(int product) {
+		this.product = product;
+	}
+	public int getStock() {
+		return stock;
+	}
+	public void setStock(int stock) {
+		this.stock = stock;
+	}
+	public int getTrade() {
+		return trade;
+	}
+	public void setTrade(int trade) {
+		this.trade = trade;
+	}
+	public int getCollect() {
+		return collect;
+	}
+	public void setCollect(int collect) {
+		this.collect = collect;
 	}
 	public String getName() {
 		return name;
@@ -45,10 +73,10 @@ public class MemberDTO {
 	public void setPw(String pw) {
 		this.pw = pw;
 	}
-	public String getCode() {
+	public int getCode() {
 		return code;
 	}
-	public void setCode(String code) {
+	public void setCode(int code) {
 		this.code = code;
 	}
 

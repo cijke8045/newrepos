@@ -8,7 +8,7 @@ public class StockDTO {
 	private int changecnt;
 	private int totalcnt;
 	private String editor;
-	private String no;
+	private int no;
 	private String memo;
 	private Date editdate;
 	private Date causedate;
@@ -42,10 +42,10 @@ public class StockDTO {
 	public void setEditor(String editor) {
 		this.editor = editor;
 	}
-	public String getNo() {
+	public int getNo() {
 		return no;
 	}
-	public void setNo(String no) {
+	public void setNo(int no) {
 		this.no = no;
 	}
 	public String getMemo() {

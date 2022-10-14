@@ -27,21 +27,22 @@ public class AccountDAO {
 		} 
 	}
 	
-	public boolean codeExist(String code) {
+	public boolean codeExist(int code) {
 		String query;
 		boolean result=false;
+		String strcode=code+"";
 		
 		try {
 			con = dataFactory.getConnection();
-			if(code.length()==10) {			//사업자 번호이면 컴패니테이블 조회
+			if(strcode.length()==10) {			//사업자 번호이면 컴패니테이블 조회
 				query="select code from company where code=?";
-			} else if(code.length()==4 || code.equals("admin")) {			//직원번호이면 임플로이테이블 조회
+			} else if(strcode.length()==4) {			//직원번호이면 임플로이테이블 조회
 				query="select code from employee where code=?";
 			} else {
 				return false;
 			}
 			pstmt = con.prepareStatement(query);
-			pstmt.setString(1, code);
+			pstmt.setInt(1, code);
 			rs = pstmt.executeQuery();
 			if(rs.next()) {
 				result=true;
@@ -61,14 +62,14 @@ public class AccountDAO {
 		return result;
 	}
 	
-	public boolean idExist(String code) {
+	public boolean idExist(int code) {
 		
 		boolean result=false;
 		try {
 			con = dataFactory.getConnection();
 			String query="select id from member where code=?";
 			pstmt = con.prepareStatement(query);
-			pstmt.setString(1, code);
+			pstmt.setInt(1, code);
 			rs = pstmt.executeQuery();
 			if(rs.next()) {
 				result=true;
@@ -120,13 +121,18 @@ public class AccountDAO {
 			con=dataFactory.getConnection();
 			String id = dto.getId();
 			String pw = dto.getPw();
-			String code = dto.getCode();
-			String query= "insert into member values(?,?,?)";
+			int code = dto.getCode();
+			String query= "insert into member values(?,?,?,?,?,?,?,?)";
 			
 			pstmt = con.prepareStatement(query);
-			pstmt.setString(1, code);
+			pstmt.setInt(1, code);
 			pstmt.setString(2, id);
 			pstmt.setString(3, pw);
+			pstmt.setInt(4, 0);
+			pstmt.setInt(5, 0);
+			pstmt.setInt(6, 0);
+			pstmt.setInt(7, 0);
+			pstmt.setInt(8, 0);
 			pstmt.executeUpdate();
 			pstmt.close();
 			System.out.println("회원가입");
@@ -143,9 +149,9 @@ public class AccountDAO {
 		}
 	}
 	
-	public String checkIdPw(String id, String pw) {
+	public int checkIdPw(String id, String pw) {
 		
-		String result=null;
+		int result=-10;
 		try {
 			con = dataFactory.getConnection();
 			String query="select code from member where id=? and pw=?";
@@ -154,7 +160,7 @@ public class AccountDAO {
 			pstmt.setString(2, pw);
 			 rs = pstmt.executeQuery();
 			if(rs.next()) {
-				result=rs.getString(1);
+				result=rs.getInt(1);
 			}
 			
 		}catch(Exception e) {
@@ -171,31 +177,63 @@ public class AccountDAO {
 		return result;
 	}
 	
-	public MemberDTO getinformation(String code) {
-		String query="";
-		MemberDTO dto =new MemberDTO();
+	public MemberDTO getAuth(int code) {
+		MemberDTO dto = new MemberDTO();
 		try {
 			con = dataFactory.getConnection();
-			if(code.length()==4 || code.equals("admin")) {				//직원
+			String query="select * from member where code=?";
+			pstmt = con.prepareStatement(query);
+			pstmt.setInt(1, code);
+			rs = pstmt.executeQuery();
+			if(rs.next()) {
+				dto.setCompany(rs.getInt("company"));
+				dto.setProduct(rs.getInt("product"));
+				dto.setStock(rs.getInt("stock"));
+				dto.setTrade(rs.getInt("trade"));
+				dto.setCollect(rs.getInt("collect"));
+			}
+			
+		}catch(Exception e) {
+			e.printStackTrace();
+		}finally {
+			try {
+				if(rs!=null) rs.close();
+				if(pstmt!=null) pstmt.close();
+				con.close();
+			} catch(Exception e) {
+				e.printStackTrace();
+			}
+		}
+		return dto;
+	}
+	
+	public MemberDTO getinformation(int code) {
+		String query="";
+		MemberDTO dto =new MemberDTO();
+		String strcode=code+"";
+		try {
+			con = dataFactory.getConnection();
+			if(strcode.length()==4 ||strcode.length()==1) {				//직원
 				query="select * from employee where code=?";
-			} else if(code.length()==10) { 		//거래처
+			} else if(strcode.length()==10) { 		//거래처
 				query="select * from company where code=?";
+			} else {
+				
 			}
 			pstmt = con.prepareStatement(query);
-			pstmt.setString(1, code);		
+			pstmt.setInt(1, code);		
 			 rs = pstmt.executeQuery();
 			
-			if(code.length()==4 || code.equals("admin")) {				//직원
+			if(strcode.length()==4 || strcode.length()==1) {				//직원
 				if(rs.next()) {
-					dto.setCode(rs.getString("code"));
+					dto.setCode(rs.getInt("code"));
 					dto.setDepartment(rs.getString("department"));
 					dto.setName(rs.getString("name"));
 					dto.setJob(rs.getString("job"));
 				}
-			}else if(code.length()==10) { 		//거래처
+			}else if(strcode.length()==10) { 		//거래처
 				if(rs.next()) {
-					dto.setCode(rs.getString("code"));
-					dto.setCo_name(rs.getString("co_name"));
+					dto.setCode(rs.getInt("code"));
 					dto.setName(rs.getString("name"));
 				}
 			}

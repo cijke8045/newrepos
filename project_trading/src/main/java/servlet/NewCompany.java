@@ -31,7 +31,7 @@ public class NewCompany extends HttpServlet {
 		PrintWriter out = response.getWriter();
 		String name=request.getParameter("name");
 		
-		dto.setCode(Integer.parseInt(request.getParameter("code")));
+		dto.setCode(request.getParameter("code"));
 		dto.setAddress(request.getParameter("address"));
 		dto.setName(name);
 		dto.setContact(request.getParameter("contact"));
@@ -42,7 +42,7 @@ public class NewCompany extends HttpServlet {
 				+ "<body>"
 				+ "<script>"
 				+ "alert(\"["+name+"] 등록되었습니다.\");"
-			    + "location.href='Company.jsp';"
+			    + "location.href='company.jsp';"
 				+ "</script>"
 				+ "<body>"
 				+ "</html>");

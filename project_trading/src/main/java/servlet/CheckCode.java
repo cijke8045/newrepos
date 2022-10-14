@@ -34,8 +34,8 @@ public class CheckCode extends HttpServlet {
 		PrintWriter out = response.getWriter();
 		boolean codeExist=false;
 		boolean idExist=false;
-		codeExist=dao.codeExist(request.getParameter("code"));
-		idExist=dao.idExist(request.getParameter("code"));
+		codeExist=dao.codeExist(Integer.parseInt(request.getParameter("code")));
+		idExist=dao.idExist(Integer.parseInt(request.getParameter("code")));
 		
 		if(codeExist==true && idExist==false) {			//코드존재,코드로 기가입 아이디없음.
 			RequestDispatcher dispatch = request.getRequestDispatcher("memberForm.jsp?code="+request.getParameter("code"));

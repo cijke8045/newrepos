@@ -12,9 +12,11 @@
 	<link rel = "stylesheet" href = "css/style.css">
 	<script>
 		function conf() {
-			var ans = confirm("상품삭제시 재고 또한 삭제됩니다. 3번 생각하고 삭제하세요");
-			
+			var ans = confirm("상품삭제시 재고 또한 삭제됩니다. 3번 생각하고 삭제하세요.");
 			if(ans){
+				var ans2 = confirm("진짜로 삭제할거에요? 난 이제 책임 못짐.");	
+			}
+			if(ans2){
 				var tbl = document.tbl;
 				tbl.method="post";
 				tbl.action="delProduct";
@@ -27,7 +29,7 @@
 	<%@ include file="header.jsp" %>
 	<br><br>
 <%
-	if(auth==0 || auth==1){			//비회원,거래처일경우
+	if(auth==0 || auth==1 || (int)session.getAttribute("product")==0){			//비회원,거래처일경우
 %>
 		<script>
 			alert("잘못된 접근입니다.");

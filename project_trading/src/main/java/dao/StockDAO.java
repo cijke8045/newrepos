@@ -77,7 +77,7 @@ public class StockDAO {
 				dto.setChangecnt(rs.getInt("changecnt"));
 				dto.setEditdate(rs.getDate("editdate"));
 				dto.setMemo(rs.getString("memo"));
-				dto.setNo(rs.getString("no"));
+				dto.setNo(rs.getInt("no"));
 				
 				dtos.add(dto);
 			}
@@ -133,7 +133,7 @@ public class StockDAO {
 			pstmt.setDate(1, causedate);
 			rs = pstmt.executeQuery();
 			if(rs.next()) {
-				cnt=Integer.parseInt(rs.getString("totalcnt"));
+				cnt=rs.getInt("totalcnt");
 			}
 			
 		}catch(Exception e) {
