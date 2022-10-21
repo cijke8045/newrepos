@@ -79,6 +79,7 @@ public class ProductDAO {
 				dto.setP_price(rs.getString("price"));
 				dto.setP_unit(rs.getString("unit"));
 				dtos.add(dto);
+				System.out.println(rs.getInt("code"));
 			}
 			
 		}catch(Exception e) {
