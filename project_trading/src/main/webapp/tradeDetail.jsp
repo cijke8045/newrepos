@@ -34,7 +34,8 @@
 %>	
 		거래관리
 		<br><br>
-		<button class="btn" type="button" onclick="newtrade();">신규거래명세서</button> &nbsp;&nbsp;
+		<button class="btn" type="button" onclick="location.href='tradeFormOut.jsp';">신규 매출 거래명세서</button> &nbsp;&nbsp;
+		<button class="btn" type="button" onclick="location.href='tradeFormIn.jsp';">신규 매입 거래명세서</button> &nbsp;&nbsp;
 <%
 		if(request.getParameter("comtxt")!=null) {
 %>

@@ -14,7 +14,7 @@
 		function search() {
 			var tbl = document.tbl;
 			tbl.method = "post";
-			tbl.action = "tradeDetail.jsp";
+			tbl.action = "tradeList";
 			tbl.submit();
 		}
 	</script>
@@ -58,7 +58,7 @@
 			dtos=dao.searchCompany(request.getParameter("comtxt"));
 		}
 		
-		if(request.getParameter("comtxt")!=null) {		
+		if(request.getParameter("comtxt")!=null) {
 %>
 		<form name="tbl" style="width: 1200px; height: 500px; margin: auto;">
 			<table class="infoList">
@@ -77,7 +77,12 @@
 		<div style="text-align: center ">
 			<p style="text-align: center;">※ 거래처 미 선택시 전체거래처로 조회됩니다.</p>
 			<p style="text-align: center;">※ 전체기간을 검색하시려면 조회기간을 공란으로 두고 조회 해주세요.</p>
-			조회기간:<input type="date" name="start" value="all"/>~<input type="date" name="end" value="all"/>
+			조회기간:<input type="date" name="start"/>~<input type="date" name="end" />
+			<select name="inout">
+				<option value="매출매입">매출매입</option>
+				<option value="매출만">매출만</option>
+				<option value="매입만">매입만</option>
+			</select>
 			<button class="btn" type="button" onclick="search();">조회</button>  &nbsp;&nbsp;
 		</div>
 		</form>
