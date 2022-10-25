@@ -12,7 +12,12 @@
 	<title>거래 관리</title>
 	<link rel = "stylesheet" href = "css/style.css">
 	<script>
-		
+		function detail(){
+			var tbl = document.tbl;
+			tbl.method="post";
+			tbl.action="tradeDetail.jsp";
+			tbl.submit();
+		}
 	</script>
 </head>
 <body>
@@ -49,13 +54,21 @@
 		}
 		
 		dtos = dao.tradeList(c_code, start, end);
-%>	
+		if(dtos.size()==0){
+%>
+		<script>
+			alert("조회결과가 없습니다.");
+			location.href='tradeMain.jsp';
+		</script>
+<%
+		}
+%>			
 		거래관리
 		<br><br>
 		<button class="btn" type="button" onclick="location.href='tradeFormOut.jsp';">신규 매출 거래명세서</button> &nbsp;&nbsp;
 		<button class="btn" type="button" onclick="location.href='tradeFormIn.jsp';">신규 매입 거래명세서</button> &nbsp;&nbsp;
 		
-<%
+<%	
 	if(start==null){
 %>	
 	* 
@@ -137,7 +150,6 @@
 	
 	for(int i=0; i<dtos.size(); i++){
 		dto=dtos.get(i);
-		System.out.println(dto.getSup_price());
 		if(inout!=dto.getInout() && inout!=3){
 			continue;
 		}
@@ -188,16 +200,15 @@
 %>
 			<tr class="tradeTotal">
 					<td colspan="5">합계</td>
-					<td><input type="text" value=<%=total_sup%> name="sum_supprice" disabled></td>
-					<td><input type="text" value=<%=total_tax%> name="sum_tax" disabled></td>
-					<td><input type="text" value=<%=total_sum%> name="sum_total" disabled></td>
+					<td><input type="text" value=<%=total_sup%> name="sum_supprice" readonly></td>
+					<td><input type="text" value=<%=total_tax%> name="sum_tax" readonly></td>
+					<td><input type="text" value=<%=total_sum%> name="sum_total" readonly></td>
 			</tr>
 		</table>
 		
 		<br><br>
-			<button class="btn" type="button" onclick="search();">상세조회</button>  &nbsp;&nbsp;
-			<button class="btn" type="button" onclick="search();">수정</button>  &nbsp;&nbsp;
-			<button class="btn" type="button" onclick="search();">삭제</button>  &nbsp;&nbsp;
+			<button class="btn" type="button" onclick="detail();">상세조회</button>  &nbsp;&nbsp;
+			<button class="btn" type="button" onclick="del();">삭제</button>  &nbsp;&nbsp;
 		</form>
 		</div>
 <%	

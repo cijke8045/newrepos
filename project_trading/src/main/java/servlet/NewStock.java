@@ -40,7 +40,7 @@ public class NewStock extends HttpServlet {
 		if(dto.getCause().equals("기타입고")) {
 			dto.setChangecnt(Integer.parseInt(request.getParameter("changecnt")));
 		} else {
-			dto.setChangecnt(-Integer.parseInt(request.getParameter("changecnt")));
+			dto.setChangecnt((-1)*Integer.parseInt(request.getParameter("changecnt")));
 		}
 		dto.setMemo(request.getParameter("memo"));
 		dto.setEditor((String)session.getAttribute("name"));

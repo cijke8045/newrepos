@@ -128,9 +128,10 @@ public class StockDAO {
 		int cnt=0;
 		try {
 			con = dataFactory.getConnection();
-			query="select totalcnt from stock where causedate<=? order by causedate desc, no desc";
+			query="select totalcnt from stock where causedate<=? and code=? order by causedate desc, no desc";
 			pstmt = con.prepareStatement(query);
 			pstmt.setDate(1, causedate);
+			pstmt.setInt(2, code);
 			rs = pstmt.executeQuery();
 			if(rs.next()) {
 				cnt=rs.getInt("totalcnt");
@@ -153,11 +154,11 @@ public class StockDAO {
 	public void updateStock(StockDTO dto) {
 		try {
 			con = dataFactory.getConnection();
-			String query="update stock set totalcnt =totalcnt+? where causedate>?";
+			String query="update stock set totalcnt =totalcnt+? where causedate>? and code=?";
 			pstmt = con.prepareStatement(query);
 			pstmt.setInt(1, dto.getChangecnt());
 			pstmt.setDate(2, dto.getCausedate());
-			
+			pstmt.setInt(3, dto.getCode());
 			pstmt.executeUpdate();
 			
 		}catch(Exception e) {
@@ -226,8 +227,7 @@ public class StockDAO {
 	
 	public void newStock(StockDTO dto) {
 		int totalcnt=0;
-		totalcnt =findLastTotal(dto.getCode(),dto.getCausedate())
-							+dto.getChangecnt();
+		totalcnt =findLastTotal(dto.getCode(),dto.getCausedate())+dto.getChangecnt();
 		//가장최근의 총수량에 변동된 수량 계산
 		int maxnum = findMaxNum("stock")+1;
 		//연번 자동으로입력
