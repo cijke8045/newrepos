@@ -6,6 +6,7 @@ public class TradeDTO {
 	private int t_code;
 	private int inout;
 	private int c_code;
+	private String c_name;
 	private Date t_date;
 	private String p_name;
 	private int p_code;
@@ -16,6 +17,13 @@ public class TradeDTO {
 	private int totalprice;
 	private int no;
 	private int price;
+	
+	public String getC_name() {
+		return c_name;
+	}
+	public void setC_name(String c_name) {
+		this.c_name = c_name;
+	}
 	public int getPrice() {
 		return price;
 	}

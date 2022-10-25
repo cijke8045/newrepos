@@ -46,7 +46,6 @@ public class NewTrade extends HttpServlet {
 		int t_code= p_dao.autoCode("trade");
 		Date t_date =Date.valueOf(request.getParameter("date"));
 		
-		
 		String[] no= request.getParameterValues("p_no");
 		String[] p_name = request.getParameterValues("p_name");
 		String[] p_code = request.getParameterValues("p_code");

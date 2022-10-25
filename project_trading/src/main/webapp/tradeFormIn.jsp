@@ -174,15 +174,15 @@
 	<br><br>
 	
 <%
-	//if(auth==0 || auth==1 || (int)session.getAttribute("trade")==0){			//비회원,거래처,권한없을경우
+	if(auth==0 || auth==1 || (int)session.getAttribute("trade")==0){			//비회원,거래처,권한없을경우
 %>
-<!-- 		<script>
+		<script>
 			alert("잘못된 접근입니다.");
 			location.href='index.jsp';		
 		</script>
- -->		
+		
 <%
-//	}
+	}
 	CompanyDAO c_dao = new CompanyDAO();
 	CompanyDTO c_dto = new CompanyDTO();
 	ArrayList<CompanyDTO> c_dtos = new ArrayList<CompanyDTO>();

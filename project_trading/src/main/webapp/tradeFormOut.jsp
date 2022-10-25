@@ -85,7 +85,6 @@
 			cell5.innerHTML ='<input type="text" name="p_price" class="inlong" >';
 			cell6.innerHTML ='<input type="text" name="p_supprice" class="inlong" onblur="cal_2();">';
 			cell7.innerHTML ='<input type="text" name="p_tax" class="inlong" onblur="cal_2();">';
-			
 			}
 			
 			function delrow() {

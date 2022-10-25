@@ -3,7 +3,7 @@ package servlet;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.sql.Date;
-
+import java.util.ArrayList;
 import dao.TradeDAO;
 import dto.TradeDTO;
 import jakarta.servlet.ServletException;
@@ -11,7 +11,6 @@ import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
-import jakarta.servlet.http.HttpSession;
 
 @WebServlet("/tradeList")
 public class TradeList extends HttpServlet {
@@ -31,8 +30,10 @@ public class TradeList extends HttpServlet {
 		
 		TradeDAO dao = new TradeDAO();
 		TradeDTO dto = new TradeDTO();
+		ArrayList<TradeDTO> dtos = new ArrayList<TradeDTO>(); 
+		
 		PrintWriter out = response.getWriter();
-		String inout = request.getParameter("inout");
+		int inout =Integer.parseInt(request.getParameter("inout"));
 		int c_code=-1;
 		Date start=null;
 		Date end=null;
@@ -49,7 +50,7 @@ public class TradeList extends HttpServlet {
 		}catch (Exception e) {
 		}
 		
-		dao.
+		dtos = dao.tradeList(c_code, start, end);
 		
 		
 	
