@@ -40,39 +40,39 @@ public class TradeDAO {
 			
 			if(c_code==-1) {						//전체거래처 조회시
 				if(start==null && end==null) {			//기간없음
-					query="select t.code, t.t_date, c.name, tc.p_name, tc.sup_price,tc.tax from company c,trade t, tradecontent tc where t.code=tc.code and t.c_code=c.code order by t_date desc ,name";
+					query="select t.code, t.t_date, c.name, tc.p_name, tc.sup_price,tc.tax,t.inout  from company c,trade t, tradecontent tc where t.code=tc.code and t.c_code=c.code order by t_date desc ,name,code desc";
 					pstmt = con.prepareStatement(query);
 				}else if(start==null && end!=null) {	//시작날짜없음
-					query="select t.code, t.t_date, c.name, tc.p_name, tc.sup_price,tc.tax from company c,trade t, tradecontent tc where t.code=tc.code and t.c_code=c.code and t.t_date<? order by t_date desc ,name";
+					query="select t.code, t.t_date, c.name, tc.p_name, tc.sup_price,tc.tax,t.inout from company c,trade t, tradecontent tc where t.code=tc.code and t.c_code=c.code and t.t_date<=? order by t_date desc ,name,code desc";
 					pstmt = con.prepareStatement(query);
 					pstmt.setDate(1, end);
 				}else if(start!=null && end==null) {	//끝날짜없음
-					query="select t.code, t.t_date, c.name, tc.p_name, tc.sup_price,tc.tax from company c,trade t, tradecontent tc where t.code=tc.code and t.c_code=c.code and ?<t.t_date order by t_date desc ,name";
+					query="select t.code, t.t_date, c.name, tc.p_name, tc.sup_price,tc.tax,t.inout from company c,trade t, tradecontent tc where t.code=tc.code and t.c_code=c.code and ?<=t.t_date order by t_date desc ,name,code desc";
 					pstmt = con.prepareStatement(query);
 					pstmt.setDate(1, start);
 				}else {									//특정기간있음	
-					query="select t.code, t.t_date, c.name, tc.p_name, tc.sup_price,tc.tax from company c,trade t, tradecontent tc where t.code=tc.code and t.c_code=c.code and ?<t.t_date<? order by t_date desc ,name";
+					query="select t.code, t.t_date, c.name, tc.p_name, tc.sup_price,tc.tax,t.inout from company c,trade t, tradecontent tc where t.code=tc.code and t.c_code=c.code and ?<=t.t_date and t.t_date<=? order by t_date desc ,name,code desc";
 					pstmt = con.prepareStatement(query);
 					pstmt.setDate(1, start);
 					pstmt.setDate(2, end);
 				}
 			} else {								//특정거래처 조회시
 				if(start==null && end==null) {			//기간없음
-					query="select t.code, t.t_date, c.name, tc.p_name, tc.sup_price,tc.tax from company c,trade t, tradecontent tc where t.code=tc.code and t.c_code=c.code and t.c_code=? order by t_date desc ,name";
+					query="select t.code, t.t_date, c.name, tc.p_name, tc.sup_price,tc.tax,t.inout from company c,trade t, tradecontent tc where t.code=tc.code and t.c_code=c.code and t.c_code=? order by t_date desc ,name,code desc";
 					pstmt = con.prepareStatement(query);
 					pstmt.setInt(1, c_code);
 				}else if(start==null && end!=null) {	//시작날짜없음
-					query="select t.code, t.t_date, c.name, tc.p_name, tc.sup_price,tc.tax from company c,trade t, tradecontent tc where t.code=tc.code and t.c_code=c.code and t.t_date<? and t.c_code=? order by t_date desc ,name";
+					query="select t.code, t.t_date, c.name, tc.p_name, tc.sup_price,tc.tax,t.inout from company c,trade t, tradecontent tc where t.code=tc.code and t.c_code=c.code and t.t_date<=? and t.c_code=? order by t_date desc ,name,code desc";
 					pstmt = con.prepareStatement(query);
 					pstmt.setDate(1, end);
 					pstmt.setInt(2, c_code);
 				}else if(start!=null && end==null) {	//끝날짜없음
-					query="select t.code, t.t_date, c.name, tc.p_name, tc.sup_price,tc.tax from company c,trade t, tradecontent tc where t.code=tc.code and t.c_code=c.code and ?<t.t_date and t.c_code=? order by t_date desc ,name";
+					query="select t.code, t.t_date, c.name, tc.p_name, tc.sup_price,tc.tax,t.inout from company c,trade t, tradecontent tc where t.code=tc.code and t.c_code=c.code and ?<=t.t_date and t.c_code=? order by t_date desc ,name,code desc";
 					pstmt = con.prepareStatement(query);
 					pstmt.setDate(1, start);
 					pstmt.setInt(2, c_code);
 				}else {									//특정기간있음	
-					query="select t.code, t.t_date, c.name, tc.p_name, tc.sup_price,tc.tax from company c,trade t, tradecontent tc where t.code=tc.code and t.c_code=c.code and ?<t.t_date<? and t.c_code=? order by t_date desc ,name";
+					query="select t.code, t.t_date, c.name, tc.p_name, tc.sup_price,tc.tax,t.inout from company c,trade t, tradecontent tc where t.code=tc.code and t.c_code=c.code and ?<=t.t_date and t.t_date<=? and t.c_code=? order by t_date desc ,name,code desc";
 					pstmt = con.prepareStatement(query);
 					pstmt.setDate(1, start);
 					pstmt.setDate(2, end);
@@ -89,6 +89,7 @@ public class TradeDAO {
 				dto.setP_name(rs.getString("p_name"));
 				dto.setSup_price(rs.getInt("sup_price"));
 				dto.setTax(rs.getInt("tax"));
+				dto.setInout(rs.getInt("inout"));
 				dtos.add(dto);
 			}
 			

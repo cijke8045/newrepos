@@ -69,8 +69,13 @@ public class NewTrade extends HttpServlet {
 			dto.setP_code(Integer.parseInt(p_code[i]));
 			dto.setUnit(p_unit[i]);
 			dto.setCnt(Integer.parseInt(p_cnt[i]));
-			dto.setSup_price(Integer.parseInt(p_supprice[i]));
-			dto.setTax(Integer.parseInt(p_tax[i]));
+			if(inout==1) {
+				dto.setSup_price(Integer.parseInt(p_supprice[i])*(-1));
+				dto.setTax(Integer.parseInt(p_tax[i])*(-1));
+			}else {
+				dto.setSup_price(Integer.parseInt(p_supprice[i]));
+				dto.setTax(Integer.parseInt(p_tax[i]));
+			}
 			dto.setPrice(Integer.parseInt(p_price[i]));
 			dtos.add(dto);
 		}

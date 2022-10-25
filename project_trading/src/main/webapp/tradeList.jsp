@@ -132,19 +132,30 @@
 	int total_sup=0;
 	int total_tax=0;
 	int total_sum=0;
+	int cnt=-1;
 	String str_inout="";
 	
 	for(int i=0; i<dtos.size(); i++){
 		dto=dtos.get(i);
+		System.out.println(dto.getSup_price());
 		if(inout!=dto.getInout() && inout!=3){
 			continue;
 		}
-		if(dto.getT_code()!=t_code){
+		
+		t_code=dto.getT_code();
+		
+		if(i<dtos.size()-1){
+			if(dtos.get(i+1).getT_code()!=t_code){
+				flag=true;
+			}
+		}else {
 			flag=true;
 		}
+		
 		sum_sup = sum_sup + dto.getSup_price();
 		sum_tax = sum_tax + dto.getTax();
-		t_code=dto.getT_code();
+		cnt++;
+		
 		if(flag) {
 			sum= sum_sup + sum_tax;
 			total_sup= total_sup + sum_sup;
@@ -160,7 +171,7 @@
 				<td ><input type="text" value=<%=str_inout %> name="inout" style="width:30px" ></td>
 				<td ><input type="text" value=<%=dto.getT_date() %> name="t_date" style="width:120px"></td>
 				<td><input type="text" value=<%=dto.getC_name() %> name="c_name"class="inshort"></td>
-				<td><input type="text" value=<%=dto.getP_name() %>외 class="inlong" ><input type="hidden" name="p_code" ></td>
+				<td><input type="text" value=<%=dto.getP_name() %>외<%=cnt %>건 class="inlong" ><input type="hidden" name="p_code" ></td>
 				<td><input type="text" value=<%=sum_sup %>  class="inshort" ></td>
 				<td><input type="text" value=<%=sum_tax %>  class="inshort" ></td>
 				<td><input type="text" value=<%=sum %> class="inshort" ></td>
@@ -170,6 +181,7 @@
 			sum_sup=0;
 			sum_tax=0;
 			sum=0;
+			cnt=-1;
 		}
 	}
 	total_sum= total_sup+total_tax;
