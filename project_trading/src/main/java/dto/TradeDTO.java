@@ -17,7 +17,28 @@ public class TradeDTO {
 	private int totalprice;
 	private int no;
 	private int price;
+	private String c_address;
+	private String contact;
+	private int s_no;
 	
+	public int getS_no() {
+		return s_no;
+	}
+	public void setS_no(int s_no) {
+		this.s_no = s_no;
+	}
+	public String getC_address() {
+		return c_address;
+	}
+	public void setC_address(String c_address) {
+		this.c_address = c_address;
+	}
+	public String getContact() {
+		return contact;
+	}
+	public void setContact(String contact) {
+		this.contact = contact;
+	}
 	public String getC_name() {
 		return c_name;
 	}

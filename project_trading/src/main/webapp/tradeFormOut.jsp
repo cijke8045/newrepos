@@ -29,7 +29,7 @@
 			var price = document.getElementsByName("p_price")[no];
 			var idx =p_codeArr.indexOf(parseInt(code));
 			if(idx==-1){
-				alert("존재하지 않는상품입니다. \n이대로 넣으시려면 선택버튼을 누르지마세요. \n재고는 영향을 받지않습니다.");
+				alert("존재하지 않는상품입니다. \n이대로 진행하시려면 선택버튼을 누르지마세요. \n재고는 영향을 받지않습니다.");
 				return;
 			}
 			document.getElementsByName("p_code")[no].value=code;

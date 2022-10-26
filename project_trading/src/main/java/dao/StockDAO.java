@@ -154,7 +154,7 @@ public class StockDAO {
 	public void updateStock(StockDTO dto) {
 		try {
 			con = dataFactory.getConnection();
-			String query="update stock set totalcnt =totalcnt+? where causedate>? and code=?";
+			String query="update stock set totalcnt = totalcnt+? where causedate>? and code=?";
 			pstmt = con.prepareStatement(query);
 			pstmt.setInt(1, dto.getChangecnt());
 			pstmt.setDate(2, dto.getCausedate());
@@ -242,6 +242,38 @@ public class StockDAO {
 			pstmt.setInt(4, totalcnt);
 			pstmt.setString(5, dto.getEditor());
 			pstmt.setInt(6, maxnum);
+			pstmt.setString(7, dto.getMemo());
+			pstmt.setDate(8, dto.getCausedate());
+			pstmt.executeUpdate();
+			
+		}catch(Exception e) {
+			e.printStackTrace();
+		}finally {
+			try {
+				if(rs!=null) rs.close();
+				if(pstmt!=null) pstmt.close();
+				con.close();
+			} catch(Exception e) {
+				e.printStackTrace();
+			}
+		}
+	}
+	
+	public void newStock(StockDTO dto,int s_no) {		//재고코드를 따로 지정 했을경우 
+		int totalcnt=0;
+		totalcnt =findLastTotal(dto.getCode(),dto.getCausedate())+dto.getChangecnt();
+		//가장최근의 총수량에 변동된 수량 계산
+		
+		try {
+			con = dataFactory.getConnection();
+			String query="insert into stock values(?,?,?,?,?,?,?,sysdate,?)";
+			pstmt = con.prepareStatement(query);
+			pstmt.setInt(1, dto.getCode());
+			pstmt.setString(2, dto.getCause());
+			pstmt.setInt(3, dto.getChangecnt());
+			pstmt.setInt(4, totalcnt);
+			pstmt.setString(5, dto.getEditor());
+			pstmt.setInt(6, s_no);
 			pstmt.setString(7, dto.getMemo());
 			pstmt.setDate(8, dto.getCausedate());
 			pstmt.executeUpdate();

@@ -107,18 +107,34 @@ public class TradeDAO {
 		return dtos;
 	}
 	
-	public StockDTO findChange(int no) {
-		StockDTO dto = new StockDTO();
+	public ArrayList<TradeDTO> tradeDetail(int t_code) {
 		
+		ArrayList<TradeDTO> dtos = new ArrayList<TradeDTO>();
 		try {
 			con = dataFactory.getConnection();
-			String query="select changecnt,causedate from stock where no=?";
+			String query="select t.code, t.inout, t.c_code, t.t_date, tc.p_name, tc.unit, tc.cnt, tc.sup_price, tc.tax, tc.price, tc.no, c.contact, c.name, c.address from company c, trade t, tradecontent tc where t.code=? and t.code=tc.code and t.c_code=c.code order by tc.no";
 			pstmt = con.prepareStatement(query);
-			pstmt.setInt(1, no);
+			pstmt.setInt(1, t_code);
 			rs=pstmt.executeQuery();
-			if(rs.next()) {
-				dto.setChangecnt(rs.getInt(1));
-				dto.setCausedate(rs.getDate(2));
+			while(rs.next()) {
+				TradeDTO dto = new TradeDTO();
+				
+				dto.setT_code(rs.getInt("code"));
+				dto.setInout(rs.getInt("inout"));
+				dto.setC_code(rs.getInt("c_code"));
+				dto.setT_date(rs.getDate("t_date"));
+				dto.setP_name(rs.getString("p_name"));
+				dto.setUnit(rs.getString("unit"));
+				dto.setCnt(rs.getInt("cnt"));
+				dto.setSup_price(rs.getInt("sup_price"));
+				dto.setTax(rs.getInt("tax"));
+				dto.setPrice(rs.getInt("price"));
+				dto.setNo(rs.getInt("no"));
+				dto.setContact(rs.getString("contact"));
+				dto.setC_address(rs.getString("address"));
+				dto.setC_name(rs.getString("name"));
+				
+				dtos.add(dto);
 			}
 			
 		}catch(Exception e) {
@@ -132,16 +148,37 @@ public class TradeDAO {
 				e.printStackTrace();
 			}
 		}
-		return dto;
+		return dtos;
 	}
 	
-	public void delStock(int no) {
+	public ArrayList<StockDTO> delTrade(int t_code) {
+		String query;
+		ArrayList<StockDTO> s_dtos = new ArrayList<StockDTO>();
 		
 		try {
 			con = dataFactory.getConnection();
-			String query="delete from stock where no=?";
+			query="select tc.s_no,tc.cnt,t.t_date,tc.p_code from tradecontent tc , trade t where t.code=? and tc.code=?";
 			pstmt = con.prepareStatement(query);
-			pstmt.setInt(1, no);
+			pstmt.setInt(1, t_code);
+			pstmt.setInt(2, t_code);
+			rs = pstmt.executeQuery();
+			while(rs.next()) {
+				StockDTO s_dto =new StockDTO();
+				s_dto.setNo(rs.getInt(1));
+				s_dto.setChangecnt(rs.getInt(2));
+				s_dto.setCausedate(rs.getDate(3));
+				s_dto.setCode(rs.getInt(4));
+				s_dtos.add(s_dto);
+			}
+			
+			query="delete from trade where code=?";
+			pstmt = con.prepareStatement(query);
+			pstmt.setInt(1, t_code);
+			pstmt.executeUpdate();
+			
+			query="delete from tradecontent where code=?";
+			pstmt = con.prepareStatement(query);
+			pstmt.setInt(1, t_code);
 			pstmt.executeUpdate();
 			
 		}catch(Exception e) {
@@ -155,12 +192,15 @@ public class TradeDAO {
 				e.printStackTrace();
 			}
 		}
+		return s_dtos;
 	}
 	
 	public void newTrade(ArrayList<TradeDTO> dtos , String editor) {
 		TradeDTO dto = new TradeDTO();
 		StockDTO s_dto = new StockDTO();
 		StockDAO s_dao = new StockDAO();
+		
+		int s_no;
 		dto=dtos.get(0);
 		
 		try {
@@ -176,8 +216,9 @@ public class TradeDAO {
 			
 			for(int i=0; i<dtos.size(); i++) {
 				dto=dtos.get(i);
+				s_no=s_dao.findMaxNum("stock")+1;
 				
-				query="insert into tradecontent values(?,?,?,?,?,?,?,?,?)";
+				query="insert into tradecontent values(?,?,?,?,?,?,?,?,?,?)";
 				pstmt = con.prepareStatement(query);
 				pstmt.setInt(1, dto.getT_code());
 				pstmt.setString(2, dto.getP_name());
@@ -188,6 +229,7 @@ public class TradeDAO {
 				pstmt.setInt(7, dto.getTax());
 				pstmt.setInt(8, dto.getPrice());
 				pstmt.setInt(9, dto.getNo());
+				pstmt.setInt(10, s_no);
 				pstmt.executeUpdate();
 				
 				if(dto.getInout()==0) {

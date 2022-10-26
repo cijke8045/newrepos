@@ -18,6 +18,16 @@
 			tbl.action="tradeDetail.jsp";
 			tbl.submit();
 		}
+		function del(){
+			
+			var ans = confirm("거래내역이 삭제됩니다.정말삭제하시겠습니까?");
+			if(ans){
+				var tbl = document.tbl;
+				tbl.method="post";
+				tbl.action="delTrade";
+				tbl.submit();
+			}
+		}
 	</script>
 </head>
 <body>
@@ -54,6 +64,7 @@
 		}
 		
 		dtos = dao.tradeList(c_code, start, end);
+		
 		if(dtos.size()==0){
 %>
 		<script>
@@ -146,6 +157,7 @@
 	int total_tax=0;
 	int total_sum=0;
 	int cnt=-1;
+	int check=0;
 	String str_inout="";
 	
 	for(int i=0; i<dtos.size(); i++){
@@ -179,7 +191,15 @@
 			}
 %>
 			<tr>
-				<td><input type="radio" name="t_code" value=<%=dto.getT_code() %>></td>
+				<td><input type="radio" value=<%=dto.getT_code() %> name="t_code"
+				<%
+					if(check==0){
+				%>
+				checked="checked"
+				<%
+					}
+				%>
+				></td>
 				<td ><input type="text" value=<%=str_inout %> name="inout" style="width:30px" ></td>
 				<td ><input type="text" value=<%=dto.getT_date() %> name="t_date" style="width:120px"></td>
 				<td><input type="text" value=<%=dto.getC_name() %> name="c_name"class="inshort"></td>
@@ -194,6 +214,7 @@
 			sum_tax=0;
 			sum=0;
 			cnt=-1;
+			check++;
 		}
 	}
 	total_sum= total_sup+total_tax;
