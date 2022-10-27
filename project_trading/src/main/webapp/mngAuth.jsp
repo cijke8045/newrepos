@@ -44,12 +44,11 @@
 		MemberDAO dao = new MemberDAO(); 
 		MemberDTO dto = new MemberDTO();
 		dto=dao.infoMemberE(Integer.parseInt(request.getParameter("code")));
-		
 %>
 		<%=dto.getName() %> (직원코드:<%=dto.getCode() %>) 님의 관리권한입니다.
 		<form name="tbl" style="width: 1200px; height: 100px; margin: auto;">
 			<table class="infoList">
-				<tr><th>거래처관리</th><th>상품관리</th><th>재고관리</th><th>거래관리</th><th>수금관리</th></tr>
+				<tr><th>거래처관리</th><th>상품관리</th><th>재고관리</th><th>거래관리</th><th>외상관리</th></tr>
 				<tr>
 
 					<td><input type="checkbox" name="company" value="1" ></td>

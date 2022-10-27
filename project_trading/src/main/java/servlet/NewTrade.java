@@ -87,7 +87,7 @@ public class NewTrade extends HttpServlet {
 				+ "<body>"
 				+ "<script>"
 				+ "alert(\"저장되었습니다.\");"
-			    + "location.href='tradeFormOut.jsp';"
+			    + "location.href='tradeMain.jsp';"
 				+ "</script>"
 				+ "<body>"
 				+ "</html>");

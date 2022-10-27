@@ -64,10 +64,9 @@
 		}
 		
 		dtos = dao.tradeList(c_code, start, end);
-		
 		if(dtos.size()==0){
 %>
-		<script>
+		<script type='text/javascript'>
 			alert("조회결과가 없습니다.");
 			location.href='tradeMain.jsp';
 		</script>
@@ -109,7 +108,9 @@
 	전체거래처 
 <%	
 	}else{
-		dto=dtos.get(0);
+		if(dtos.size()!=0){
+			dto=dtos.get(0);
+		}
 %> 
 <%=dto.getC_name() %>
 <%
@@ -218,7 +219,15 @@
 		}
 	}
 	total_sum= total_sup+total_tax;
+	if(check==0){
 %>
+	<script>
+		alert("조회결과가 없습니다.");
+		location.href='tradeMain.jsp';
+	</script>
+<%
+	}
+%>	
 			<tr class="tradeTotal">
 					<td colspan="5">합계</td>
 					<td><input type="text" value=<%=total_sup%> name="sum_supprice" readonly></td>

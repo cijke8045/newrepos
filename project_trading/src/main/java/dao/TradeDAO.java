@@ -1,6 +1,5 @@
 package dao;
 
-import java.io.UnsupportedEncodingException;
 import java.sql.Connection;
 import java.sql.Date;
 import java.sql.PreparedStatement;
@@ -13,8 +12,6 @@ import javax.sql.DataSource;
 
 import dto.StockDTO;
 import dto.TradeDTO;
-import jakarta.servlet.http.HttpServletRequest;
-import jakarta.servlet.http.HttpSession;
 
 public class TradeDAO {
 	private PreparedStatement pstmt=null;

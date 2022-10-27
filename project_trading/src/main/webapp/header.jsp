@@ -80,7 +80,7 @@
             	}
             	if(auth==3 || session.getAttribute("collect")!=null && (int)session.getAttribute("collect")==1){
             %>            
-		                <a href="#">수금 관리</a>
+		                <a href="collectMain.jsp">외상 관리</a>
 		    <%
             	}
             %>
