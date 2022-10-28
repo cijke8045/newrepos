@@ -14,13 +14,26 @@
 	<meta charset="UTF-8">
 	<title>재고 관리</title>
 	<link rel = "stylesheet" href = "css/style.css">
-	<script>
+	<script>		
 		function openmemo() {
-			var tbl = document.tbl;
+			var no=document.getElementsByName("no");
+			var flag = false;
 			
-			tbl.method="post";
-			tbl.action="stockDetail.jsp";
-			tbl.submit();
+			for(var i=0; i<no.length;i++){
+				if(no[i].checked){
+					flag=true;
+					break;
+				}
+			}
+			if(flag){
+				var tbl = document.tbl;
+				tbl.method = "post";
+				tbl.action = "stockDetail.jsp";
+				tbl.submit();	
+			}else{
+				alert("메모를 열람할 건을 선택해주세요.");
+				return;
+			}
 		}
 		function new_() {
 			var tbl = document.tbl;
@@ -30,11 +43,24 @@
 			tbl.submit();
 		}
 		function del() {
-			var tbl = document.tbl;
-			tbl.method="post";
-			tbl.action="delStock";
-			tbl.submit();
+			var no=document.getElementsByName("no");
+			var flag = false;
 			
+			for(var i=0; i<no.length;i++){
+				if(no[i].checked){
+					flag=true;
+					break;
+				}
+			}
+			if(flag){
+				var tbl = document.tbl;
+				tbl.method="post";
+				tbl.action="delStock";
+				tbl.submit();	
+			}else{
+				alert("삭제할 건을 선택해주세요.");
+				return;
+			}
 		}
 	</script>
 </head>

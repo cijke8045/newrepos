@@ -12,20 +12,45 @@
 	<link rel = "stylesheet" href = "css/style.css">
 	<script>
 		function auth() {
-			var tbl = document.tbl;
-			tbl.method="post";
-			tbl.action="mngAuth.jsp";
-			tbl.submit();
+			var code=document.getElementsByName("code");
+			var flag = false;
+			
+			for(var i=0; i<code.length;i++){
+				if(code[i].checked){
+					flag=true;
+					break;
+				}
+			}
+			if(flag){
+				var tbl = document.tbl;
+				tbl.method="post";
+				tbl.action="mngAuth.jsp";
+				tbl.submit();	
+			}else{
+				alert("권할설정할 회원을 선택해주세요.");
+			}
 		}
 	
 		function conf() {
-			var ans = confirm("회원을 삭제하시겠습니까?");
+			var code=document.getElementsByName("code");
+			var flag = false;
 			
-			if(ans){
-				var tbl = document.tbl;
-				tbl.method="post";
-				tbl.action="delMember";
-				tbl.submit();
+			for(var i=0; i<code.length;i++){
+				if(code[i].checked){
+					flag=true;
+					break;
+				}
+			}
+			if(flag){
+				var ans = confirm("회원을 삭제하시겠습니까?");
+				if(ans){
+					var tbl = document.tbl;
+					tbl.method="post";
+					tbl.action="delMember";
+					tbl.submit();
+				}	
+			}else{
+				alert("삭제할 회원을 선택해주세요.");
 			}
 		}
 	</script>

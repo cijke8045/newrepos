@@ -11,16 +11,29 @@
 	<title>상품 관리</title>
 	<link rel = "stylesheet" href = "css/style.css">
 	<script>
-		function conf() {
-			var ans = confirm("상품삭제시 재고 또한 삭제됩니다. 3번 생각하고 삭제하세요.");
-			if(ans){
-				var ans2 = confirm("진짜로 삭제할거에요? 난 이제 책임 못짐.");	
+		function conf(){ 
+			var code=document.getElementsByName("code");
+			var flag = false;
+			
+			for(var i=0; i<code.length;i++){
+				if(code[i].checked){
+					flag=true;
+					break;
+				}
 			}
-			if(ans2){
-				var tbl = document.tbl;
-				tbl.method="post";
-				tbl.action="delProduct";
-				tbl.submit();
+			if(flag){
+				var ans = confirm("상품삭제시 재고 또한 삭제됩니다. 3번 생각하고 삭제하세요.");
+				if(ans){
+					var ans2 = confirm("진짜로 삭제할거에요? 난 이제 책임 못짐.");	
+				}
+				if(ans2){
+					var tbl = document.tbl;
+					tbl.method="post";
+					tbl.action="delProduct";
+					tbl.submit();
+				}	
+			}else{
+				alert("삭제할 상품을 선택해주세요.");
 			}
 		}
 	</script>
@@ -81,7 +94,13 @@
 		<br><br>
 		<div style="text-align: center ">
 			<button class="btn" type="button" value="신규등록" onclick="location.href='newProduct.jsp';">신규등록</button>  &nbsp;&nbsp;
+<%
+		if(request.getParameter("comtxt")!=null) {
+%>			
 			<button class="btn" type="button" value="삭제" onclick="conf();">삭제</button>
+<%
+		}
+%>
 		</div>
 <%
 	}

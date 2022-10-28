@@ -30,11 +30,8 @@ public class MngAuth extends HttpServlet {
 		MemberDTO dto = new MemberDTO();
 		PrintWriter out = response.getWriter();
 		
-		if(request.getParameter("code")==null) {
-			dto.setCode(0);
-		} else {
-			dto.setCode(Integer.parseInt(request.getParameter("code")));
-		}
+		dto.setCode(request.getParameter("code"));
+		
 		if(request.getParameter("product")==null) {
 			dto.setProduct(0);
 		} else {

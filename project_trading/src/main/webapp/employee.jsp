@@ -12,13 +12,26 @@
 	<link rel = "stylesheet" href = "css/style.css">
 	<script>
 		function conf() {
-			var ans = confirm("직원을 삭제하시겠습니까?");
+			var code=document.getElementsByName("code");
+			var flag = false;
 			
-			if(ans){
-				var tbl = document.tbl;
-				tbl.method="post";
-				tbl.action="delEmployee";
-				tbl.submit();
+			for(var i=0; i<code.length;i++){
+				if(code[i].checked){
+					flag=true;
+					break;
+				}
+			}
+			if(flag){
+				var ans = confirm("직원을 삭제하시겠습니까?");
+				
+				if(ans){
+					var tbl = document.tbl;
+					tbl.method="post";
+					tbl.action="delEmployee";
+					tbl.submit();
+				}
+			}else{
+				alert("삭제할 직원을 선택해주세요.");
 			}
 		}
 	</script>
@@ -79,7 +92,13 @@
 		<br><br>
 		<div style="text-align: center ">
 			<button class="btn" type="button" value="신규등록" onclick="location.href='newEmployee.jsp';">신규등록</button>  &nbsp;&nbsp;
+<%
+		if(request.getParameter("comtxt")!=null) {
+%>			
 			<button class="btn" type="button" value="삭제" onclick="conf();">삭제</button>
+<%
+		}
+%>			
 		</div>
 <%
 	}

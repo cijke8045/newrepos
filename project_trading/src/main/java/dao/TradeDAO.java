@@ -28,52 +28,52 @@ public class TradeDAO {
 		}
 	}
 	
-	public ArrayList<TradeDTO> tradeList(int c_code, Date start, Date end) {
+	public ArrayList<TradeDTO> tradeList(String c_code, Date start, Date end) {
 		String query;
 		
 		ArrayList<TradeDTO> dtos = new ArrayList<TradeDTO>();
 		try {
 			con = dataFactory.getConnection();
 			
-			if(c_code==-1) {						//전체거래처 조회시
+			if(c_code.equals("all")) {						//전체거래처 조회시
 				if(start==null && end==null) {			//기간없음
-					query="select t.code, t.t_date, c.name, tc.p_name, tc.sup_price,tc.tax,t.inout  from company c,trade t, tradecontent tc where t.code=tc.code and t.c_code=c.code order by t_date desc ,name,code desc";
+					query="select t.editor,t.code, t.t_date, c.name, tc.p_name, tc.sup_price,tc.tax,t.inout  from company c,trade t, tradecontent tc where t.code=tc.code and t.c_code=c.code order by t_date desc ,name,code desc";
 					pstmt = con.prepareStatement(query);
 				}else if(start==null && end!=null) {	//시작날짜없음
-					query="select t.code, t.t_date, c.name, tc.p_name, tc.sup_price,tc.tax,t.inout from company c,trade t, tradecontent tc where t.code=tc.code and t.c_code=c.code and t.t_date<=? order by t_date desc ,name,code desc";
+					query="select t.editor,t.code, t.t_date, c.name, tc.p_name, tc.sup_price,tc.tax,t.inout from company c,trade t, tradecontent tc where t.code=tc.code and t.c_code=c.code and t.t_date<=? order by t_date desc ,name,code desc";
 					pstmt = con.prepareStatement(query);
 					pstmt.setDate(1, end);
 				}else if(start!=null && end==null) {	//끝날짜없음
-					query="select t.code, t.t_date, c.name, tc.p_name, tc.sup_price,tc.tax,t.inout from company c,trade t, tradecontent tc where t.code=tc.code and t.c_code=c.code and ?<=t.t_date order by t_date desc ,name,code desc";
+					query="select t.editor,t.code, t.t_date, c.name, tc.p_name, tc.sup_price,tc.tax,t.inout from company c,trade t, tradecontent tc where t.code=tc.code and t.c_code=c.code and ?<=t.t_date order by t_date desc ,name,code desc";
 					pstmt = con.prepareStatement(query);
 					pstmt.setDate(1, start);
 				}else {									//특정기간있음	
-					query="select t.code, t.t_date, c.name, tc.p_name, tc.sup_price,tc.tax,t.inout from company c,trade t, tradecontent tc where t.code=tc.code and t.c_code=c.code and ?<=t.t_date and t.t_date<=? order by t_date desc ,name,code desc";
+					query="select t.editor,t.code, t.t_date, c.name, tc.p_name, tc.sup_price,tc.tax,t.inout from company c,trade t, tradecontent tc where t.code=tc.code and t.c_code=c.code and ?<=t.t_date and t.t_date<=? order by t_date desc ,name,code desc";
 					pstmt = con.prepareStatement(query);
 					pstmt.setDate(1, start);
 					pstmt.setDate(2, end);
 				}
 			} else {								//특정거래처 조회시
 				if(start==null && end==null) {			//기간없음
-					query="select t.code, t.t_date, c.name, tc.p_name, tc.sup_price,tc.tax,t.inout from company c,trade t, tradecontent tc where t.code=tc.code and t.c_code=c.code and t.c_code=? order by t_date desc ,name,code desc";
+					query="select t.editor,t.code, t.t_date, c.name, tc.p_name, tc.sup_price,tc.tax,t.inout from company c,trade t, tradecontent tc where t.code=tc.code and t.c_code=c.code and t.c_code=? order by t_date desc ,name,code desc";
 					pstmt = con.prepareStatement(query);
-					pstmt.setInt(1, c_code);
+					pstmt.setString(1, c_code);
 				}else if(start==null && end!=null) {	//시작날짜없음
-					query="select t.code, t.t_date, c.name, tc.p_name, tc.sup_price,tc.tax,t.inout from company c,trade t, tradecontent tc where t.code=tc.code and t.c_code=c.code and t.t_date<=? and t.c_code=? order by t_date desc ,name,code desc";
+					query="select t.editor,t.code, t.t_date, c.name, tc.p_name, tc.sup_price,tc.tax,t.inout from company c,trade t, tradecontent tc where t.code=tc.code and t.c_code=c.code and t.t_date<=? and t.c_code=? order by t_date desc ,name,code desc";
 					pstmt = con.prepareStatement(query);
 					pstmt.setDate(1, end);
-					pstmt.setInt(2, c_code);
+					pstmt.setString(2, c_code);
 				}else if(start!=null && end==null) {	//끝날짜없음
-					query="select t.code, t.t_date, c.name, tc.p_name, tc.sup_price,tc.tax,t.inout from company c,trade t, tradecontent tc where t.code=tc.code and t.c_code=c.code and ?<=t.t_date and t.c_code=? order by t_date desc ,name,code desc";
+					query="select t.editor,t.code, t.t_date, c.name, tc.p_name, tc.sup_price,tc.tax,t.inout from company c,trade t, tradecontent tc where t.code=tc.code and t.c_code=c.code and ?<=t.t_date and t.c_code=? order by t_date desc ,name,code desc";
 					pstmt = con.prepareStatement(query);
 					pstmt.setDate(1, start);
-					pstmt.setInt(2, c_code);
+					pstmt.setString(2, c_code);
 				}else {									//특정기간있음	
-					query="select t.code, t.t_date, c.name, tc.p_name, tc.sup_price,tc.tax,t.inout from company c,trade t, tradecontent tc where t.code=tc.code and t.c_code=c.code and ?<=t.t_date and t.t_date<=? and t.c_code=? order by t_date desc ,name,code desc";
+					query="select t.editor,t.code, t.t_date, c.name, tc.p_name, tc.sup_price,tc.tax,t.inout from company c,trade t, tradecontent tc where t.code=tc.code and t.c_code=c.code and ?<=t.t_date and t.t_date<=? and t.c_code=? order by t_date desc ,name,code desc";
 					pstmt = con.prepareStatement(query);
 					pstmt.setDate(1, start);
 					pstmt.setDate(2, end);
-					pstmt.setInt(3, c_code);
+					pstmt.setString(3, c_code);
 				}
 			}
 			
@@ -87,6 +87,7 @@ public class TradeDAO {
 				dto.setSup_price(rs.getInt("sup_price"));
 				dto.setTax(rs.getInt("tax"));
 				dto.setInout(rs.getInt("inout"));
+				dto.setT_editor(rs.getString("editor"));
 				dtos.add(dto);
 			}
 			
@@ -118,7 +119,7 @@ public class TradeDAO {
 				
 				dto.setT_code(rs.getInt("code"));
 				dto.setInout(rs.getInt("inout"));
-				dto.setC_code(rs.getInt("c_code"));
+				dto.setC_code(rs.getString("c_code"));
 				dto.setT_date(rs.getDate("t_date"));
 				dto.setP_name(rs.getString("p_name"));
 				dto.setUnit(rs.getString("unit"));
@@ -203,12 +204,13 @@ public class TradeDAO {
 		try {
 			
 			con = dataFactory.getConnection();
-			String query="insert into trade values(?,?,?,?)";
+			String query="insert into trade values(?,?,?,?,?)";
 			pstmt = con.prepareStatement(query);
 			pstmt.setInt(1, dto.getT_code());
 			pstmt.setInt(2, dto.getInout());
-			pstmt.setInt(3, dto.getC_code());
+			pstmt.setString(3, dto.getC_code());
 			pstmt.setDate(4, dto.getT_date());
+			pstmt.setString(5, editor);
 			pstmt.executeUpdate();
 			
 			for(int i=0; i<dtos.size(); i++) {

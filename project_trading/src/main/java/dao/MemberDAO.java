@@ -38,7 +38,7 @@ public class MemberDAO {
 			pstmt.setInt(1, code);
 			rs = pstmt.executeQuery();
 			if(rs.next()) {
-				dto.setCode(rs.getInt(1));
+				dto.setCode(rs.getString(1));
 				dto.setId(rs.getString(2));
 				dto.setCompany(rs.getInt(4));
 				dto.setProduct(rs.getInt(5));
@@ -74,9 +74,8 @@ public class MemberDAO {
 			pstmt.setInt(3, dto.getStock());
 			pstmt.setInt(4, dto.getTrade());
 			pstmt.setInt(5, dto.getCollect());
-			pstmt.setInt(6, dto.getCode());
+			pstmt.setString(6, dto.getCode());
 			pstmt.executeUpdate();
-			
 			
 		}catch(Exception e) {
 			e.printStackTrace();
@@ -108,7 +107,7 @@ public class MemberDAO {
 			rs = pstmt.executeQuery();
 			while(rs.next()) {
 				MemberDTO dto = new MemberDTO();
-				dto.setCode(rs.getInt(1));
+				dto.setCode(rs.getString(1));
 				dto.setId(rs.getString(2));
 				dto.setCompany(rs.getInt(4));
 				dto.setProduct(rs.getInt(5));
@@ -152,7 +151,7 @@ public class MemberDAO {
 			rs = pstmt.executeQuery();
 			while(rs.next()) {
 				MemberDTO dto = new MemberDTO();
-				dto.setCode(rs.getInt(1));
+				dto.setCode(rs.getString(1));
 				dto.setId(rs.getString(2));
 				dto.setName(rs.getString(11));
 				
@@ -195,14 +194,14 @@ public class MemberDAO {
 		}
 	}
 	
-	public void changePw(int code,String pw) {
+	public void changePw(String code,String pw) {
 		String query;
 		try {
 			con = dataFactory.getConnection();
 			query="update member set pw=? where code=?";
 			pstmt = con.prepareStatement(query);
 			pstmt.setString(1, pw);
-			pstmt.setInt(2, code);
+			pstmt.setString(2, code);
 			pstmt.executeUpdate();
 			
 			

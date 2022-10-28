@@ -5,7 +5,7 @@ import java.sql.Date;
 public class TradeDTO {
 	private int t_code;
 	private int inout;
-	private int c_code;
+	private String c_code;
 	private String c_name;
 	private Date t_date;
 	private String p_name;
@@ -20,7 +20,14 @@ public class TradeDTO {
 	private String c_address;
 	private String contact;
 	private int s_no;
+	private String t_editor;
 	
+	public String getT_editor() {
+		return t_editor;
+	}
+	public void setT_editor(String t_editor) {
+		this.t_editor = t_editor;
+	}
 	public int getS_no() {
 		return s_no;
 	}
@@ -63,10 +70,10 @@ public class TradeDTO {
 	public void setInout(int inout) {
 		this.inout = inout;
 	}
-	public int getC_code() {
+	public String getC_code() {
 		return c_code;
 	}
-	public void setC_code(int c_code) {
+	public void setC_code(String c_code) {
 		this.c_code = c_code;
 	}
 	public Date getT_date() {

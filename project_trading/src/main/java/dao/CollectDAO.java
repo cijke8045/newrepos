@@ -29,12 +29,12 @@ public class CollectDAO {
 		}
 	}
 	
-	public ArrayList<CollectDTO> collectList(int c_code, Date start, Date end) {
+	public ArrayList<CollectDTO> collectList(String c_code, Date start, Date end) {
 		ArrayList<CollectDTO> dtos = new ArrayList<CollectDTO>();
 		String query;
 		try {
 			con = dataFactory.getConnection();
-			if(c_code==-1) {						//거래처 전부
+			if(c_code.equals("all")) {						//거래처 전부
 				if(start==null && end==null) {			//기간없음
 					query="select col.*, c.name from collect col,company c where c.code=col.c_code order by col_date desc, name";
 					pstmt = con.prepareStatement(query);
@@ -56,23 +56,23 @@ public class CollectDAO {
 				if(start==null && end==null) {			//기간없음
 					query="select col.*, c.name from collect col,company c where c.code=col.c_code and c_code=? order by col_date desc, name";
 					pstmt = con.prepareStatement(query);
-					pstmt.setInt(1, c_code);
+					pstmt.setString(1, c_code);
 				}else if(start==null && end!=null) {	//시작날짜 없을시 	
 					query="select col.*, c.name from collect col,company c where c.code=col.c_code and col_date<=? and c_code=? order by col_date desc, name";
 					pstmt = con.prepareStatement(query);
 					pstmt.setDate(1, end);
-					pstmt.setInt(2, c_code);
+					pstmt.setString(2, c_code);
 				}else if(start!=null && end==null) {	//끝날짜 없읋시	
 					query="select col.*, c.name from collect col,company c where c.code=col.c_code and ?<=col_date and c_code=? order by col_date desc, name";
 					pstmt = con.prepareStatement(query);
 					pstmt.setDate(1, start);
-					pstmt.setInt(2, c_code);
+					pstmt.setString(2, c_code);
 				}else {									//특정기간
 					query="select col.*, c.name from collect col,company c where c.code=col.c_code and ?<=col_date and cal_date<=? and c_code=? order by col_date desc, name";
 					pstmt = con.prepareStatement(query);
 					pstmt.setDate(1, start);
 					pstmt.setDate(2, end);
-					pstmt.setInt(3, c_code);
+					pstmt.setString(3, c_code);
 				}
 			}
 			rs=pstmt.executeQuery();
@@ -83,7 +83,7 @@ public class CollectDAO {
 				dto.setCol_memo(rs.getString(3));
 				dto.setCol_amount(rs.getInt(4));
 				dto.setCol_date(rs.getDate(5));
-				dto.setC_code(rs.getInt(6));
+				dto.setC_code(rs.getString(6));
 				dto.setCol_editor(rs.getString(7));
 				dto.setC_name(rs.getString(8));
 				
@@ -136,7 +136,7 @@ public class CollectDAO {
 			pstmt.setString(3, dto.getCol_memo());
 			pstmt.setInt(4, dto.getCol_amount());
 			pstmt.setDate(5, dto.getCol_date());
-			pstmt.setInt(6, dto.getC_code());
+			pstmt.setString(6, dto.getC_code());
 			pstmt.setString(7, dto.getCol_editor());
 			pstmt.executeUpdate();
 			

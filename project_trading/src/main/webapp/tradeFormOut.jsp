@@ -29,7 +29,7 @@
 			var price = document.getElementsByName("p_price")[no];
 			var idx =p_codeArr.indexOf(parseInt(code));
 			if(idx==-1){
-				alert("존재하지 않는상품입니다. \n이대로 진행하시려면 선택버튼을 누르지마세요. \n재고는 영향을 받지않습니다.");
+				alert("존재하지 않는상품입니다.");
 				return;
 			}
 			document.getElementsByName("p_code")[no].value=code;
@@ -160,12 +160,47 @@
 			}
 			
 			function saveform() {
+				var date=document.getElementsByName("date");
+				if(date[0].value==""){
+					alert("날짜입력은 필수사항입니다.");
+					return;
+				}
+				var btn = document.getElementsByName("btn");
+				for(var i =0; i<btn.length; i++){
+					if(btn[i].getAttribute("type")!="hidden"){
+						alert("선택되지 않은 상품이 있습니다.");
+						return;	
+					}
+				}
+				
+				var cnt= document.getElementsByName("p_cnt");
+				var price=document.getElementsByName("p_price");
+				var supprice=document.getElementsByName("p_supprice");
+				var tax=document.getElementsByName("p_tax");
+				for(var i =0; i<cnt.length; i++){
+					if(cnt[i].value==""){
+						alert("수량이 입력되지 않았습니다.");
+						return;	
+					}
+					if(price[i].value==""){
+						alert("단가가 입력되지 않았습니다.");
+						return;
+					}
+					if(supprice[i].value==""){
+						alert("공급가액이 입력되지 않았습니다.");
+						return;
+					}
+					if(tax[i].value==""){
+						alert("세액이 입력되지 않았습니다.");
+						return;
+					}
+				}
+				
 				var tbl = document.tbl;
 				tbl.method="post";
 				tbl.action="newTrade";
 				tbl.submit();
 			}
-			
 	</script>
 </head>
 <body>

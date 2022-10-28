@@ -12,14 +12,28 @@
 	<link rel = "stylesheet" href = "css/style.css">
 	<script>
 		function conf() {
-			var ans = confirm("거래처를 삭제하시겠습니까? 3번 생각하고 삭제하세요");
+			var code=document.getElementsByName("code");
+			var flag = false;
 			
-			if(ans){
-				var tbl = document.tbl;
-				tbl.method="post";
-				tbl.action="delCompany";
-				tbl.submit();
+			for(var i=0; i<code.length;i++){
+				if(code[i].checked){
+					flag=true;
+					break;
+				}
 			}
+			if(flag){
+				var ans = confirm("거래처를 삭제하시겠습니까? 3번 생각하고 삭제하세요");
+				if(ans){
+					var tbl = document.tbl;
+					tbl.method="post";
+					tbl.action="delCompany";
+					tbl.submit();
+				}	
+			}else{
+				alert("삭제할 거래처를 선택해주세요.");
+				return;
+			}
+			
 		}
 	</script>
 </head>
@@ -79,7 +93,13 @@
 		<br><br>
 		<div style="text-align: center ">
 			<button class="btn" type="button" value="신규등록" onclick="location.href='newCompany.jsp';">신규등록</button>  &nbsp;&nbsp;
+<%
+		if(request.getParameter("comtxt")!=null) {
+%>			
 			<button class="btn" type="button" value="삭제" onclick="conf();">삭제</button>
+<%
+		}
+%>			
 		</div>
 <%
 	}

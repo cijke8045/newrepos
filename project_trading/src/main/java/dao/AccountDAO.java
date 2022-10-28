@@ -27,22 +27,25 @@ public class AccountDAO {
 		} 
 	}
 	
-	public boolean codeExist(int code) {
+	public boolean codeExist(String code) {
 		String query;
 		boolean result=false;
-		String strcode=code+"";
 		
 		try {
 			con = dataFactory.getConnection();
-			if(strcode.length()==10) {			//사업자 번호이면 컴패니테이블 조회
+			if(code.length()==10) {			//사업자 번호이면 컴패니테이블 조회
 				query="select code from company where code=?";
-			} else if(strcode.length()==4) {			//직원번호이면 임플로이테이블 조회
+				pstmt = con.prepareStatement(query);
+				pstmt.setString(1, code);
+			} else if(code.length()==4) {			//직원번호이면 임플로이테이블 조회
+				int intcode=Integer.parseInt(code);
 				query="select code from employee where code=?";
+				pstmt = con.prepareStatement(query);
+				pstmt.setInt(1, intcode);
 			} else {
 				return false;
 			}
-			pstmt = con.prepareStatement(query);
-			pstmt.setInt(1, code);
+			
 			rs = pstmt.executeQuery();
 			if(rs.next()) {
 				result=true;
@@ -62,14 +65,14 @@ public class AccountDAO {
 		return result;
 	}
 	
-	public boolean idExist(int code) {
+	public boolean idExist(String code) {
 		
 		boolean result=false;
 		try {
 			con = dataFactory.getConnection();
 			String query="select id from member where code=?";
 			pstmt = con.prepareStatement(query);
-			pstmt.setInt(1, code);
+			pstmt.setString(1, code);
 			rs = pstmt.executeQuery();
 			if(rs.next()) {
 				result=true;
@@ -121,11 +124,11 @@ public class AccountDAO {
 			con=dataFactory.getConnection();
 			String id = dto.getId();
 			String pw = dto.getPw();
-			int code = dto.getCode();
+			String code = dto.getCode();
 			String query= "insert into member values(?,?,?,?,?,?,?,?)";
 			
 			pstmt = con.prepareStatement(query);
-			pstmt.setInt(1, code);
+			pstmt.setString(1, code);
 			pstmt.setString(2, id);
 			pstmt.setString(3, pw);
 			pstmt.setInt(4, 0);
@@ -149,9 +152,9 @@ public class AccountDAO {
 		}
 	}
 	
-	public int checkIdPw(String id, String pw) {
+	public String checkIdPw(String id, String pw) {
 		
-		int result=-10;
+		String result="fail";
 		try {
 			con = dataFactory.getConnection();
 			String query="select code from member where id=? and pw=?";
@@ -160,7 +163,7 @@ public class AccountDAO {
 			pstmt.setString(2, pw);
 			 rs = pstmt.executeQuery();
 			if(rs.next()) {
-				result=rs.getInt(1);
+				result=rs.getString(1);
 			}
 			
 		}catch(Exception e) {
@@ -177,13 +180,13 @@ public class AccountDAO {
 		return result;
 	}
 	
-	public MemberDTO getAuth(int code) {
+	public MemberDTO getAuth(String code) {
 		MemberDTO dto = new MemberDTO();
 		try {
 			con = dataFactory.getConnection();
 			String query="select * from member where code=?";
 			pstmt = con.prepareStatement(query);
-			pstmt.setInt(1, code);
+			pstmt.setString(1, code);
 			rs = pstmt.executeQuery();
 			if(rs.next()) {
 				dto.setCompany(rs.getInt("company"));
@@ -207,33 +210,30 @@ public class AccountDAO {
 		return dto;
 	}
 	
-	public MemberDTO getinformation(int code) {
+	public MemberDTO getinformation(String code) {
 		String query="";
 		MemberDTO dto =new MemberDTO();
-		String strcode=code+"";
 		try {
 			con = dataFactory.getConnection();
-			if(strcode.length()==4 ||strcode.length()==1) {				//직원
+			if(code.length()==4 ||code.length()==1) {				//직원
 				query="select * from employee where code=?";
-			} else if(strcode.length()==10) { 		//거래처
-				query="select * from company where code=?";
-			} else {
-				
-			}
-			pstmt = con.prepareStatement(query);
-			pstmt.setInt(1, code);		
-			 rs = pstmt.executeQuery();
-			
-			if(strcode.length()==4 || strcode.length()==1) {				//직원
+				pstmt = con.prepareStatement(query);
+				pstmt.setInt(1,Integer.parseInt(code));
+				rs = pstmt.executeQuery();
 				if(rs.next()) {
-					dto.setCode(rs.getInt("code"));
+					dto.setCode(rs.getInt("code")+"");
 					dto.setDepartment(rs.getString("department"));
 					dto.setName(rs.getString("name"));
 					dto.setJob(rs.getString("job"));
 				}
-			}else if(strcode.length()==10) { 		//거래처
+				
+			} else if(code.length()==10) { 		//거래처
+				query="select * from company where code=?";
+				pstmt = con.prepareStatement(query);
+				pstmt.setString(1, code);
+				rs = pstmt.executeQuery();
 				if(rs.next()) {
-					dto.setCode(rs.getInt("code"));
+					dto.setCode(rs.getString("code"));
 					dto.setName(rs.getString("name"));
 				}
 			}

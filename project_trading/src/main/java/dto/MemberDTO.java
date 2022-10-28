@@ -3,7 +3,7 @@ package dto;
 public class MemberDTO {
 	private String id;
 	private String pw;
-	private int code;
+	private String code;
 	private String name;
 	private String department;
 	private String job;
@@ -73,10 +73,10 @@ public class MemberDTO {
 	public void setPw(String pw) {
 		this.pw = pw;
 	}
-	public int getCode() {
+	public String getCode() {
 		return code;
 	}
-	public void setCode(int code) {
+	public void setCode(String code) {
 		this.code = code;
 	}
 

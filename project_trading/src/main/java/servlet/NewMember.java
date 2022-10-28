@@ -30,7 +30,7 @@ public class NewMember extends HttpServlet {
 		MemberDTO dto = new MemberDTO();
 		PrintWriter out = response.getWriter();
 		
-		dto.setCode(Integer.parseInt(request.getParameter("code")));
+		dto.setCode(request.getParameter("code"));
 		dto.setId(request.getParameter("id"));
 		dto.setPw(request.getParameter("pw"));
 		

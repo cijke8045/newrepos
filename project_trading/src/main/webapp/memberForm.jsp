@@ -22,6 +22,7 @@
 					if(data=='possible'){
 				       	   $('#message').text("사용할 수 있는 ID입니다.");	
 				       	   $('#btn_duplicate').prop("disabled", true);
+				       		$('#t_id').prop("readonly", true);
 				    }else{
 				       	   $('#message').text("!!!!사용불가!!!!");
 			        }						

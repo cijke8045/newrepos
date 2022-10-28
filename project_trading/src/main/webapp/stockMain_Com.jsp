@@ -10,36 +10,14 @@
 <html>
 <head>
 	<meta charset="UTF-8">
-	<title>재고 관리</title>
+	<title>재고 조회</title>
 	<link rel = "stylesheet" href = "css/style.css">
-	<script>
-		function detail() {
-			var code=document.getElementsByName("code");
-			var flag = false;
-			
-			for(var i=0; i<code.length;i++){
-				if(code[i].checked){
-					flag=true;
-					break;
-				}
-			}
-			if(flag){
-				var tbl = document.tbl;
-				tbl.method = "post";
-				tbl.action = "stockDetail.jsp";
-				tbl.submit();	
-			}else{
-				alert("조회할 상품을 선택해주세요.");
-				return;
-			}
-		}
-	</script>
 </head>
 <body>
 	<%@ include file="header.jsp" %>
 	<br><br>
 <%
-	if(auth==0 || auth==1 || (int)session.getAttribute("stock")==0){			//비회원,거래처일경우
+	if(auth!=1){
 %>
 		<script>
 			alert("잘못된 접근입니다.");
@@ -48,10 +26,10 @@
 <%
 	}else{			//권한 있을 시
 %>	
-		재고관리
+		재고조회
 		<br><br>
 		
-		<form class = "searchCom" method="post" action="stockMain.jsp">
+		<form class = "searchCom" method="post" action="stockMain_Com.jsp">
 			<input type="text" name = "comtxt" placeholder="상품명을 입력해주세요" value=""/>
 			<input type="submit" value="검색"/>
 		</form>
@@ -75,29 +53,25 @@
 		
 		if(request.getParameter("comtxt")!=null) {		
 %>
+
+			<p style="text-align:center;">본 재고수량은 참고용입니다. 실수량은 문의하세요.</p>
+			<br>
 			<form class="tblWrapper" name="tbl">
 			<table class="infoList">
-				<tr><th>선택</th><th>상품코드</th><th>상품명</th><th>현재수량</th></tr>
+				<tr><th>상품코드</th><th>상품명</th><th>현재수량</th></tr>
 <%						
-		
 			for(int i =0; i<p_dtos.size(); i++){
 				p_dto=p_dtos.get(i);
 				s_dto=s_dao.stockWithcode(p_dto.getP_code());
 				
 %>				
 		
-		<tr><td><input type="radio" name="code" value=<%=p_dto.getP_code() %> /></td><td><%= p_dto.getP_code() %></td><td><%=p_dto.getP_name() %></td><td><%=s_dto.getTotalcnt() %></td></tr>
+		<tr><td><%= p_dto.getP_code() %></td><td><%=p_dto.getP_name() %></td><td><%=s_dto.getTotalcnt() %></td></tr>
 <%
 			}
-		
 %>				
 			</table>
 		</form>
-		
-		<br><br>
-		<div style="text-align: center ">
-			<button class="btn" type="button" onclick="detail();">입출내역상세조회</button>  &nbsp;&nbsp;
-		</div>
 <%
 		}
 	}

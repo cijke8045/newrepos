@@ -44,12 +44,12 @@
 		CollectDTO col_dto = new CollectDTO();
 		ArrayList<CollectDTO> col_dtos = new ArrayList<CollectDTO>();
 		
-		int c_code=-1;
+		String c_code="all";
 		Date start=null;
 		Date end=null;
 		
 		if(request.getParameter("code")!=null) {
-			c_code=Integer.parseInt(request.getParameter("code"));
+			c_code=request.getParameter("code");
 		}
 		try {
 			start = Date.valueOf(request.getParameter("start"));
@@ -94,6 +94,10 @@
 	String str_inout="";
 	for(int i=0; i<col_dtos.size(); i++){
 		col_dto=col_dtos.get(i);
+		if(col_dto.getCol_memo()==null){
+			col_dto.setCol_memo("X");
+		}
+		
 		total=total+col_dto.getCol_amount();
 		if(col_dto.getCol_inout()==1){
 			str_inout="입금";
@@ -161,7 +165,7 @@
 				<td><input type="text" value=<%=t_dto.getT_date() %> style="width:120px" readonly></td>
 				<td><input type="text" value=<%=t_dto.getC_name() %> class="inlong" readonly></td>
 				<td><input type="text" value=<%=t_dto.getP_name() %>외<%=cnt %>건 class="inlong" readonly></td>
-				<td><input type="text" class="inshort" readonly></td>
+				<td><input type="text" value=<%=t_dto.getT_editor() %> class="inshort" readonly></td>
 				<td><input type="text" value=<%=sum %> class="inlong" readonly></td>
 			</tr>
 <% 
@@ -201,7 +205,7 @@
 %>
  까지 [
 <%
-	if(c_code==-1){
+	if(c_code.equals("all")){
 %>	
 	전체거래처 
 <%	

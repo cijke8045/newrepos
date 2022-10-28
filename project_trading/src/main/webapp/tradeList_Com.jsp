@@ -9,24 +9,14 @@
 <html>
 <head>
 	<meta charset="UTF-8">
-	<title>거래 관리</title>
+	<title>거래명세서 조회</title>
 	<link rel = "stylesheet" href = "css/style.css">
 	<script>
 		function detail(){
 			var tbl = document.tbl;
 			tbl.method="post";
-			tbl.action="tradeDetail.jsp";
+			tbl.action="tradeDetail_Com.jsp";
 			tbl.submit();
-		}
-		function del(){
-			
-			var ans = confirm("거래내역이 삭제됩니다.정말삭제하시겠습니까?");
-			if(ans){
-				var tbl = document.tbl;
-				tbl.method="post";
-				tbl.action="delTrade";
-				tbl.submit();
-			}
 		}
 	</script>
 </head>
@@ -34,7 +24,7 @@
 	<%@ include file="header.jsp" %>
 	<br><br>
 <%
-	if(auth==0 || auth==1 || (int)session.getAttribute("trade")==0){			//비회원,거래처일경우
+	if(auth!=1){			//거래처가 아닐경우,
 %>
 		<script>
 			alert("잘못된 접근입니다.");
@@ -51,9 +41,7 @@
 		Date start=null;
 		Date end=null;
 		
-		if(request.getParameter("code")!=null) {
-			c_code=request.getParameter("code");
-		}
+		c_code=request.getParameter("code");
 		try {
 			start = Date.valueOf(request.getParameter("start"));
 		}catch (Exception e) {
@@ -68,16 +56,13 @@
 %>
 		<script type='text/javascript'>
 			alert("조회결과가 없습니다.");
-			location.href='tradeMain.jsp';
+			location.href='tradeMain_Com.jsp';
 		</script>
 <%
 		}
 %>			
-		거래관리
+		거래명세서 조회
 		<br><br>
-		<button class="btn" type="button" onclick="location.href='tradeFormOut.jsp';">신규 매출 거래명세서</button> &nbsp;&nbsp;
-		<button class="btn" type="button" onclick="location.href='tradeFormIn.jsp';">신규 매입 거래명세서</button> &nbsp;&nbsp;
-		
 <%	
 	if(start==null){
 %>	
@@ -201,13 +186,13 @@
 					}
 				%>
 				></td>
-				<td ><input type="text" value=<%=str_inout %> name="inout" style="width:30px" ></td>
-				<td ><input type="text" value=<%=dto.getT_date() %> name="t_date" style="width:120px"></td>
-				<td><input type="text" value=<%=dto.getC_name() %> name="c_name"class="inshort"></td>
-				<td><input type="text" value=<%=dto.getP_name() %>외<%=cnt %>건 class="inlong" ><input type="hidden" name="p_code" ></td>
-				<td><input type="text" value=<%=sum_sup %>  class="inshort" ></td>
-				<td><input type="text" value=<%=sum_tax %>  class="inshort" ></td>
-				<td><input type="text" value=<%=sum %> class="inshort" ></td>
+				<td ><input type="text" value=<%=str_inout %> name="inout" style="width:30px" readonly></td>
+				<td ><input type="text" value=<%=dto.getT_date() %> name="t_date" style="width:120px"readonly></td>
+				<td><input type="text" value=<%=dto.getC_name() %> name="c_name"class="inshort"readonly></td>
+				<td><input type="text" value=<%=dto.getP_name() %>외<%=cnt %>건 class="inlong" readonly></td>
+				<td><input type="text" value=<%=sum_sup %>  class="inshort" readonly></td>
+				<td><input type="text" value=<%=sum_tax %>  class="inshort" readonly></td>
+				<td><input type="text" value=<%=sum %> class="inshort" readonly></td>
 			</tr>
 <%
 			flag=false;
@@ -223,7 +208,7 @@
 %>
 	<script>
 		alert("조회결과가 없습니다.");
-		location.href='tradeMain.jsp';
+		location.href='tradeMain_Com.jsp';
 	</script>
 <%
 	}
@@ -238,7 +223,6 @@
 		
 		<br><br>
 			<button class="btn" type="button" onclick="detail();">상세조회</button>  &nbsp;&nbsp;
-			<button class="btn" type="button" onclick="del();">삭제</button>  &nbsp;&nbsp;
 		</form>
 		</div>
 <%	

@@ -25,7 +25,7 @@
    <%
    		if(auth==1){
    %>
-   		<%=session.getAttribute("co_name") %> 님
+   		<%=session.getAttribute("name") %> 님
    <%   			
    		} else if(auth==2){
    %>
@@ -83,7 +83,13 @@
 		                <a href="collectMain.jsp">외상 관리</a>
 		    <%
             	}
+            	if(auth==1){
             %>
+            			<a href="tradeMain_Com.jsp">거래명세서 조회</a>
+            			<a href="stockMain_Com.jsp">상품 재고 조회</a>
+            <%
+            	}
+            %>			
 		            </nav>
             
             <hr width = 70%>

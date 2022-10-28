@@ -36,7 +36,7 @@ public class NewTrade extends HttpServlet {
 		PrintWriter out = response.getWriter();		
 		ArrayList<TradeDTO> dtos= new ArrayList<TradeDTO>();
 		
-		int c_code= Integer.parseInt(request.getParameter("c_code"));
+		String c_code= request.getParameter("c_code");
 		int inout=0;
 		if(request.getParameter("inout").equals("out")) {
 			inout = 0;

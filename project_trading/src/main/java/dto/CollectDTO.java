@@ -9,7 +9,7 @@ public class CollectDTO {
 	private int col_amount;
 	private Date col_date;
 	private String col_editor;
-	private int c_code;
+	private String c_code;
 	private String c_name;
 	
 	public String getC_name() {
@@ -18,10 +18,10 @@ public class CollectDTO {
 	public void setC_name(String c_name) {
 		this.c_name = c_name;
 	}
-	public int getC_code() {
+	public String getC_code() {
 		return c_code;
 	}
-	public void setC_code(int c_code) {
+	public void setC_code(String c_code) {
 		this.c_code = c_code;
 	}
 	public String getCol_editor() {

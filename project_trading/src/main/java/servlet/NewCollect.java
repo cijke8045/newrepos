@@ -50,7 +50,7 @@ public class NewCollect extends HttpServlet {
 		dto.setCol_memo((String)request.getParameter("c_memo"));
 		int no=p_dao.autoCode("collect");
 		dto.setCol_no(no);
-		dto.setC_code(Integer.parseInt(request.getParameter("c_code")));
+		dto.setC_code(request.getParameter("c_code"));
 		
 		dao.newCollect(dto);
 		
