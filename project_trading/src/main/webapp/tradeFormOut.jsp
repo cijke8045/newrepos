@@ -81,10 +81,10 @@
 			cell1.innerHTML = '<input type="text" name="p_no" value='+(rowcnt-1)+' readonly style="width:40px">';
 			cell2.innerHTML ='<input type="text" name="p_name" list="pro_list" class="inlong" style="width:150px"> <datalist id="pro_list"> </datalist> <input class="btn" type="button" value="선택" name="btn" onclick="prosel('+(rowcnt-1)+');" style="width: 50px; height: 30px; font-size: 12px;"> <input type="hidden" name="p_code" >';
 			cell3.innerHTML ='<input type="text" name="p_unit" class="inshort" >';		
-			cell4.innerHTML ='<input type="text" name="p_cnt" class="inshort" >';
-			cell5.innerHTML ='<input type="text" name="p_price" class="inlong" >';
-			cell6.innerHTML ='<input type="text" name="p_supprice" class="inlong" onblur="cal_2();">';
-			cell7.innerHTML ='<input type="text" name="p_tax" class="inlong" onblur="cal_2();">';
+			cell4.innerHTML ='<input type="number" name="p_cnt" class="inshort" >';
+			cell5.innerHTML ='<input type="number" name="p_price" class="inlong" >';
+			cell6.innerHTML ='<input type="number" name="p_supprice" class="inlong" onblur="cal_2();">';
+			cell7.innerHTML ='<input type="number" name="p_tax" class="inlong" onblur="cal_2();">';
 			}
 			
 			function delrow() {
@@ -338,10 +338,10 @@
 					 </div>
 				</td>
 				<td><input type="text" name="p_unit" class="inshort" ><input type="hidden" name="p_code" ></td>
-				<td><input type="text" name="p_cnt" class="inshort" ></td>
-				<td><input type="text" name="p_price" class="inlong" ></td>
-				<td><input type="text" name="p_supprice" class="inlong" onblur="cal_2();"></td>
-				<td><input type="text" name="p_tax" class="inlong" onblur="cal_2();"></td>
+				<td><input type="number" name="p_cnt" class="inshort" ></td>
+				<td><input type="number" name="p_price" class="inlong" ></td>
+				<td><input type="number" name="p_supprice" class="inlong" onblur="cal_2();"></td>
+				<td><input type="number" name="p_tax" class="inlong" onblur="cal_2();"></td>
 				
 				
 			</tr>

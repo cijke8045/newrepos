@@ -42,7 +42,7 @@
     			<option value="기타입고">기타(+재고가 늘어납니다.+)</option>
     		</select>
     		발생날짜: <input type="date" name="causedate">
-    		변동수량:	<input type="text" name="changecnt">
+    		변동수량:	<input type="number" name="changecnt">
     		<br>
     		비고: <textarea name="memo"></textarea>
     		<input type ="hidden" name="code" value="<%=code%>">

@@ -201,13 +201,13 @@
 					}
 				%>
 				></td>
-				<td ><input type="text" value=<%=str_inout %> name="inout" style="width:30px" ></td>
-				<td ><input type="text" value=<%=dto.getT_date() %> name="t_date" style="width:120px"></td>
-				<td><input type="text" value=<%=dto.getC_name() %> name="c_name"class="inshort"></td>
-				<td><input type="text" value=<%=dto.getP_name() %>외<%=cnt %>건 class="inlong" ><input type="hidden" name="p_code" ></td>
-				<td><input type="text" value=<%=sum_sup %>  class="inshort" ></td>
-				<td><input type="text" value=<%=sum_tax %>  class="inshort" ></td>
-				<td><input type="text" value=<%=sum %> class="inshort" ></td>
+				<td ><input type="text" value=<%=str_inout %> name="inout" style="width:30px" readonly ></td>
+				<td ><input type="text" value=<%=dto.getT_date() %> name="t_date" style="width:120px"readonly></td>
+				<td><input type="text" value=<%=dto.getC_name() %> name="c_name"class="inshort" readonly></td>
+				<td><input type="text" value=<%=dto.getP_name() %>외<%=cnt %>건 class="inlong" readonly><input type="hidden" name="p_code" ></td>
+				<td><input type="text" value=<%=sum_sup %>  class="inshort" readonly></td>
+				<td><input type="text" value=<%=sum_tax %>  class="inshort" readonly></td>
+				<td><input type="text" value=<%=sum %> class="inshort" readonly></td>
 			</tr>
 <%
 			flag=false;
